@@ -1,8 +1,6 @@
 server:
   port: 8090
 spring:
-  thymeleaf:
-    cache: false
   output:
     ansi:
       enabled: always
@@ -18,4 +16,4 @@ spring:
 #    username: root
 #    password:
 custom:
-  fileDirPath: /usr/file
+  fileDirPath: /user/file
