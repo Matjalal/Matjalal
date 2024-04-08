@@ -3,10 +3,12 @@ package com.proj.Matjalal.domain.member.service;
 import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.member.repository.MemberRepository;
 import com.proj.Matjalal.global.RsData.RsData;
+import com.proj.Matjalal.global.exceptions.GlobalException;
 import com.proj.Matjalal.global.jwt.JwtProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public Member join(String username, String password, String email) {
         Member member = Member.builder()
@@ -46,7 +49,13 @@ public class MemberService {
 
     @Transactional
     public RsData<AuthAndMakeTokensResponseBody> authAndMakeTokens(String username, String password) {
-        Member member = this.memberRepository.findByUsername((username)).orElseThrow(() -> null);
+        // 회원 존재유무,
+        Member member = this.memberRepository.findByUsername(username).orElseThrow(() -> new GlobalException("400-1", "해당 유저가 존재하지 않습니다."));
+
+        // 비밀번호 일치 여부
+        if (passwordEncoder.matches(password, member.getPassword())) {
+            throw  new GlobalException("400-2", "비밀번호가 일치 하지 않습니다.");
+        }
 
         Map<String, Object> claims = new HashMap<>();
 
