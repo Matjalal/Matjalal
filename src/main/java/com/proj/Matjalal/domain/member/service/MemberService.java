@@ -1,5 +1,6 @@
 package com.proj.Matjalal.domain.member.service;
 
+import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,4 +9,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    public Member join(String username, String password, String email) {
+        Member member = Member.builder()
+                .username(username)
+                .password(password)
+                .email(email)
+                .build();
+
+        memberRepository.save(member);
+
+        return member;
+    }
 }
