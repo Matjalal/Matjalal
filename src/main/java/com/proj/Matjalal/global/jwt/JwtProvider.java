@@ -16,10 +16,10 @@ import java.util.Map;
 public class JwtProvider {
     private SecretKey cachedSecretKey;
     @Value("${custom.jwt.secretKey}")
-    private String originSecretKey;
+    private String secretKeyOrigin;
 
     private SecretKey _getSecretKey() {
-        String keyBase64Encoded = Base64.getEncoder().encodeToString(originSecretKey.getBytes());
+        String keyBase64Encoded = Base64.getEncoder().encodeToString(secretKeyOrigin.getBytes());
 
         return Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
     }
