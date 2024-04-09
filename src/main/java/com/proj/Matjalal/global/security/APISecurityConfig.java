@@ -27,7 +27,7 @@ public class APISecurityConfig {
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/api/*/members/login").permitAll() // 로그인은 누구나 가능
                                 .requestMatchers("/api/*/articles").permitAll() //전체 글 보기는 누구나 가능
-                                .requestMatchers("/api/*/articles/*").permitAll() //글 상세 보기는 누구나 가능
+//                                .requestMatchers("/api/*/articles/*").permitAll() //글 상세 보기 권한 있어야 가능
                                 .anyRequest().authenticated() // 나머지는 인가 처리된 사용자만 가능
                 )
                 .cors(

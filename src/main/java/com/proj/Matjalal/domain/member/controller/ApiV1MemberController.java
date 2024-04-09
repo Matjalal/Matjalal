@@ -37,6 +37,7 @@ public class ApiV1MemberController {
     @PostMapping("/login")
     public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody){
         RsData<MemberService.AuthAndMakeTokensResponseBody> rsData =  this.memberService.authAndMakeToken(loginRequestBody.getUsername(), loginRequestBody.getPassword());
+
         rq.setCrossDomainCookie("accessToken", rsData.getData().getAccessToken());
         return RsData.of(
                 rsData.getResultCode(),
