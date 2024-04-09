@@ -18,6 +18,8 @@ export default function Article() {
     console.log(json);
     setArticles(json.data.articles);
   };
+
+
   useEffect(() => {
     fetchArticles();
   }, []);

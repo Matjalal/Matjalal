@@ -39,6 +39,7 @@ public class ApiV1MemberController {
         RsData<MemberService.AuthAndMakeTokensResponseBody> rsData =  this.memberService.authAndMakeToken(loginRequestBody.getUsername(), loginRequestBody.getPassword());
 
         rq.setCrossDomainCookie("accessToken", rsData.getData().getAccessToken());
+        rq.setCrossDomainCookie("refreshToken", rsData.getData().getRefreshToken());
         return RsData.of(
                 rsData.getResultCode(),
                 rsData.getMsg(),
@@ -61,6 +62,14 @@ public class ApiV1MemberController {
                 "성공",
                 new MeResponse(new MemberDTO(member))
         );
+    }
+
+    @PostMapping("/logout")
+    public RsData<Void> logout () {
+        rq.removeCrossDomainCookie("accessToken");
+        rq.removeCrossDomainCookie("refreshToken");
+
+        return RsData.of("200", "로그아웃 성공");
     }
 
 

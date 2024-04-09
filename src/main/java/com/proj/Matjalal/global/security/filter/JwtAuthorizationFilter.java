@@ -2,6 +2,7 @@ package com.proj.Matjalal.global.security.filter;
 
 import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.member.service.MemberService;
+import com.proj.Matjalal.global.RsData.RsData;
 import com.proj.Matjalal.global.jwt.JwtProvider;
 import com.proj.Matjalal.global.rq.Rq;
 import com.proj.Matjalal.global.security.SecurityUser;
@@ -40,11 +41,17 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String accessToken = rq.getCookieValue("accessToken", "");
 
         if (!accessToken.isBlank()) {
-        rq.setCrossDomainCookie("accessToken", accessToken);
-        SecurityUser securityUser = memberService.getUserFromAccessToken(accessToken);
-        rq.setLogin(securityUser);
-    }
+            if (!memberService.validateToken(accessToken)) {
+                String refreshToken = rq.getCookieValue("refreshToken", "");
+
+                RsData<String> rs = memberService.refreshAccessToken(refreshToken);
+                accessToken = rs.getData();
+                rq.setCrossDomainCookie("accessToken", accessToken);
+            }
+            SecurityUser securityUser = memberService.getUserFromAccessToken(accessToken);
+            rq.setLogin(securityUser);
+        }
 
         filterChain.doFilter(request, response);
-}
+    }
 }

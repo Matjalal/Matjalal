@@ -1,6 +1,8 @@
 import Link from "next/link";
+
 export default function Home() {
-  console.log( )
+
+  
   return (
     <>
     홈입니다.

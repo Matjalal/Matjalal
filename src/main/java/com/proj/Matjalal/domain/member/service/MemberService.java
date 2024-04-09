@@ -23,11 +23,14 @@ public class MemberService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     public Member join(String username, String password, String email) {
+
         Member member = Member.builder()
                 .username(username)
                 .password(password)
                 .email(email)
                 .build();
+        String refreshToken = jwtProvider.genRefreshToken(member);
+        member.setRefreshToken(refreshToken);
 
         memberRepository.save(member);
 
@@ -43,6 +46,7 @@ public class MemberService {
     public static class AuthAndMakeTokensResponseBody {
         private Member member;
         private String accessToken;
+        private String refreshToken;
     }
 
     @Transactional
@@ -55,13 +59,14 @@ public class MemberService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id",member.getId());
         claims.put("username",member.getUsername());
-        String accessToken = jwtProvider.genToken( claims , 60 * 60 * 5 );
+        String refreshToken = member.getRefreshToken();
+        String accessToken = jwtProvider.genToken( member , 60 * 60 * 5 );
 
         System.out.println("accessToken : " + accessToken);
         return RsData.of(
                 "200-1",
                 "🎉로그인 성공🎉",
-                new AuthAndMakeTokensResponseBody(member, accessToken)
+                new AuthAndMakeTokensResponseBody(member, accessToken, refreshToken)
         );
     }
 
@@ -78,5 +83,16 @@ public class MemberService {
                 "",
                 authorities
         );
+    }
+    public boolean validateToken(String token) {
+        return jwtProvider.verify(token);
+    }
+
+    public RsData<String> refreshAccessToken(String refreshToken) {
+        Member member = memberRepository.findByRefreshToken(refreshToken).orElseThrow(() -> new GlobalException("400-1", "존재하지 않는 리프레시 토큰입니다."));
+
+        String accessToken = jwtProvider.genAccessToken(member);
+
+        return RsData.of("200-1", "토큰 갱신 성공", accessToken);
     }
 }

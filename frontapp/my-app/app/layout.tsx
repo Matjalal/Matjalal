@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
       <Link href="/">홈</Link> <span> | </span>
       <Link href="/article">게시글</Link> <span> | </span>
-      <Link href="/auth/login">로그인</Link> <span> | </span>
+      <Link href="/member/login">로그인</Link> <span> | </span>
       <Link href="/about">소개</Link>
       <br/> 
         {children}</body>
