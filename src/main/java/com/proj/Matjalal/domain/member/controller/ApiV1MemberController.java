@@ -46,9 +46,21 @@ public class ApiV1MemberController {
         );
     }
 
-    @GetMapping("/me")
-    public void me(){
+    @AllArgsConstructor
+    @Getter
+    public static class MeResponse {
+        private final MemberDTO memberDTO;
+    }
 
+    @GetMapping("/me")
+    public RsData me(){
+        Member member = memberService.findById(1L).get();
+
+        return RsData.of(
+                "S-6",
+                "성공",
+                new MeResponse(new MemberDTO(member))
+        );
     }
 
 
