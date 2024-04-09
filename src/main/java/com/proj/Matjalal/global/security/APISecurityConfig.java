@@ -31,6 +31,7 @@ public class APISecurityConfig {
                                 .requestMatchers("/api/*/articles/*").permitAll() //글 상세 보기 누구나 가능
                                 .requestMatchers("/api/*/ingredients").permitAll() //전체 재료 보기는 누구나 가능
                                 .requestMatchers("/api/*/ingredients/*").permitAll() // 재료 상세 보기는 누구나 가능
+                                .requestMatchers("/api/*/ingredients/type/*").permitAll() // 재료 상세 보기는 누구나 가능
                                 .anyRequest().authenticated() // 나머지는 인가 처리된 사용자만 가능
                 )
                 .cors(
