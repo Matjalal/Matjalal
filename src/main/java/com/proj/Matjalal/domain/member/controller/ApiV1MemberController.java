@@ -54,7 +54,7 @@ public class ApiV1MemberController {
 
     @GetMapping("/me")
     public RsData me(){
-        Member member = memberService.findById(1L).get();
+        Member member = rq.getMember();
 
         return RsData.of(
                 "S-6",

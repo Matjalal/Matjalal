@@ -23,7 +23,10 @@ export default function About() {
   return (
     <div>
         <h1>😎소개 페이지 입니다.</h1>
-      {member?.id} | {member?.username} | {member?.email} | {member?.createdDate} | {member?.modifiedDate}
+      아이디: {member?.id} | <br/>
+      이름: {member?.username} | <br/>
+      이메일: {member?.email} | <br/>
+      생성일: {member?.createdDate} |
       <br />
       <br />
     </div>
