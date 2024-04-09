@@ -1,11 +1,14 @@
 package com.proj.Matjalal.global.rq;
 
 import com.proj.Matjalal.domain.member.entity.Member;
+import com.proj.Matjalal.global.security.SecurityUser;
 import jakarta.persistence.EntityManager;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -26,5 +29,35 @@ public class Rq {
                 .httpOnly(true)
                 .build();
         resp.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    public String getCookieValue(String name, String defaultValue) {
+        Cookie cookie = getCookie(name);
+
+        if (cookie == null) {
+            return defaultValue;
+        }
+
+        return cookie.getValue();
+    }
+
+    public Cookie getCookie(String name) {
+        Cookie[] cookies = req.getCookies();
+
+        if (cookies == null) {
+            return null;
+        }
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(name)) {
+                return cookie;
+            }
+        }
+
+        return null;
+    }
+
+    public void setLogin(SecurityUser securityUser) {
+        SecurityContextHolder.getContext().setAuthentication(securityUser.genAuthentication());
     }
 }

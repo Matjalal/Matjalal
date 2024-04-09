@@ -5,16 +5,16 @@ import com.proj.Matjalal.domain.member.repository.MemberRepository;
 import com.proj.Matjalal.global.RsData.RsData;
 import com.proj.Matjalal.global.exception.GlobalException;
 import com.proj.Matjalal.global.jwt.JwtProvider;
+import com.proj.Matjalal.global.security.SecurityUser;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +62,21 @@ public class MemberService {
                 "200-1",
                 "🎉로그인 성공🎉",
                 new AuthAndMakeTokensResponseBody(member, accessToken)
+        );
+    }
+
+    public SecurityUser getUserFromAccessToken(String accessToken) {
+        Map<String, Object> payloadBody = jwtProvider.getClaims(accessToken);
+
+        long id = (int) payloadBody.get("id");
+        String username = (String) payloadBody.get("username");
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        return new SecurityUser(
+                id,
+                username,
+                "",
+                authorities
         );
     }
 }

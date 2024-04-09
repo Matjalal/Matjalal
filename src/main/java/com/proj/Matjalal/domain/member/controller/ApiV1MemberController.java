@@ -46,7 +46,14 @@ public class ApiV1MemberController {
         );
     }
 
+    @GetMapping("/me")
+    public void me(){
+
+    }
+
 
 
 
 }
+
+
