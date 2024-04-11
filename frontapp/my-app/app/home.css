@@ -1,0 +1,45 @@
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+html,
+body {
+  /* font-family: "Nanum Myeongjo", serif; */
+}
+body {
+  @apply m-0 p-0;
+}
+.top-section {
+  @apply translate-y-[30px];
+  /*   border: 1px solid black; */
+}
+.top-section > .container {
+  @apply max-w-[1280px] h-[400px] flex mx-auto;
+  /*   border: 1px solid orange; */
+}
+.top-section > .container > .img-box {
+  @apply border grow basis-0 relative overflow-hidden mx-[5px] border-solid border-[black];
+}
+.top-section > .container > .img-box > img {
+  @apply w-full h-full object-cover transition-[0.3s];
+}
+.img-box:hover > .bg-black-box {
+  @apply opacity-100;
+}
+.img-box:hover > img {
+  @apply scale-[1.2];
+}
+.bg-black-box {
+  @apply bg-[rgba(0,0,0,0.7)] absolute w-full h-full opacity-0 transition-[1s] left-0 top-0;
+}
+.bg-black-box > .top-box {
+  @apply border h-3/6 text-white text-sm font-normal flex justify-center items-center border-solid border-[grey];
+}
+.bg-black-box > .bottom-box {
+  @apply border h-3/6 text-white text-lg font-[bold] flex justify-center items-end box-border pb-5 px-5 border-solid border-[grey];
+}
+.bg-black-box > .bottom-box > .btn-box {
+  @apply border w-full h-[35px] text-center leading-[35px] text-[13px] tracking-[-1px] border-solid border-[rgba(255,255,255,0.6)];
+  /*   opacity: 0.6; */
+}
