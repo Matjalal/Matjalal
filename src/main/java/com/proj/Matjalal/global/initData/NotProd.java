@@ -31,6 +31,7 @@ public class NotProd {
             articleService.create(admin, "제목 5", "내용 5");
 
             //재료 생성
+            // Subway
             // [빵]
             String typeName = "bread";
             ingredientService.create("화이트", typeName);
@@ -40,7 +41,7 @@ public class NotProd {
             ingredientService.create("허니오트", typeName);
             ingredientService.create("플랫브레드", typeName);
             // [추가 토핑]
-            typeName = "topping";
+            typeName = "subwayTopping";
             // 주재료(e.g 고기) 2배
             ingredientService.create("미트 추가", typeName);
             ingredientService.create("에그마요", typeName);
@@ -82,6 +83,28 @@ public class NotProd {
             ingredientService.create("레드 와인 식초", typeName);
             ingredientService.create("소금", typeName);
             ingredientService.create("후추", typeName);
+
+            //Gong cha
+            typeName = "gongChaToppings";
+            // 토핑
+            ingredientService.create("밀크폼", typeName);
+            ingredientService.create("펄(타피오카)", typeName);
+            ingredientService.create("코코넛", typeName);
+            ingredientService.create("알로에", typeName);
+            ingredientService.create("화이트펄", typeName);
+            ingredientService.create("치즈폼", typeName);
+            // 당도
+            typeName = "sweet";
+            ingredientService.create("0%", typeName);
+            ingredientService.create("25%", typeName);
+            ingredientService.create("50%", typeName);
+            ingredientService.create("75%", typeName);
+            ingredientService.create("100%", typeName);
+            // 얼음량
+            typeName = "ice";
+            ingredientService.create("적음", typeName);
+            ingredientService.create("보통", typeName);
+            ingredientService.create("많음", typeName);
         };
     }
 
