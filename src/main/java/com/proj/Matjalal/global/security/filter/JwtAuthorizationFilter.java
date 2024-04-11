@@ -48,6 +48,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 accessToken = rs.getData();
                 rq.setCrossDomainCookie("accessToken", accessToken);
             }
+
             SecurityUser securityUser = memberService.getUserFromAccessToken(accessToken);
             rq.setLogin(securityUser);
         }
