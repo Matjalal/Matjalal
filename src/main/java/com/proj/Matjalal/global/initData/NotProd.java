@@ -104,7 +104,7 @@ public class NotProd {
 
             //Gong cha
             // [토핑] 기본(찬음료): 최대3개, 스파클링: 화이트펄, 알로에, 코코넛 중 택1, 미니펄:최대1개
-            typeName = "gongChaToppings";
+            typeName = "gongChaTopping";
             ingredientService.create("밀크폼", typeName);
             ingredientService.create("펄(타피오카)", typeName);
             ingredientService.create("코코넛", typeName);
