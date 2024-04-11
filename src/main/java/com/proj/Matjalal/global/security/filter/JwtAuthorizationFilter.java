@@ -41,6 +41,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String accessToken = rq.getCookieValue("accessToken", "");
 
         if (!accessToken.isBlank()) {
+            // 토큰 유효기간 검증
             if (!memberService.validateToken(accessToken)) {
                 String refreshToken = rq.getCookieValue("refreshToken", "");
 
