@@ -6,6 +6,7 @@
 html,
 body {
   /* font-family: "Nanum Myeongjo", serif; */
+  
 }
 body {
   @apply m-0 p-0;
@@ -15,7 +16,7 @@ body {
   /*   border: 1px solid black; */
 }
 .top-section > .container {
-  @apply max-w-[1280px] h-[400px] flex mx-auto;
+  @apply max-w-[800px] h-[200px] flex mx-auto;
   /*   border: 1px solid orange; */
 }
 .top-section > .container > .img-box {
