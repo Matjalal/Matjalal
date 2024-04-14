@@ -43,4 +43,34 @@ public class SubwayArticleService {
         );
 
     }
+
+    public Optional<SubwayArticle> findById(Long id) {
+        return this.subwayRepository.findById(id);
+    }
+
+    public RsData<SubwayArticle> modify(SubwayArticle subwayArticle, String subject, String content, List<Ingredient> ingredients) {
+        SubwayArticle subwayArticle1 = subwayArticle.toBuilder()
+                .subject(subject)
+                .content(content)
+                .ingredients(ingredients)
+                .build();
+        this.subwayRepository.save(subwayArticle1);
+
+        return RsData.of(
+                "S-4",
+                "subway 게시글 수정 성공",
+                subwayArticle1
+        );
+
+    }
+
+    public RsData<SubwayArticle> deleteBySubwayArticle(SubwayArticle subwayArticle) {
+        this.subwayRepository.delete(subwayArticle);
+
+        return RsData.of(
+                "S-5",
+                "subway 게시글 삭제 성공",
+                null
+        );
+    }
 }
