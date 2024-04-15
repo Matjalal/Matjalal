@@ -68,20 +68,20 @@ public class ApiV1SubwayArticleController {
 
     @AllArgsConstructor
     @Getter
-    public static class WriteResponce {
+    public static class WriteResponse {
         private final SubwayArticle subwayArticle;
     }
 
 
     @PostMapping("")
-    public RsData<WriteResponce> write(@RequestBody WriteRequest writeRequest) {
+    public RsData<WriteResponse> write(@RequestBody WriteRequest writeRequest) {
         RsData<SubwayArticle> writeRs = this.subwayArticleService.create(null, writeRequest.getSubject(), writeRequest.getContent(), writeRequest.getIngredients());
         if (writeRs.isFail()) return (RsData) writeRs;
 
         return RsData.of(
                 writeRs.getResultCode(),
                 writeRs.getMsg(),
-                new WriteResponce(writeRs.getData())
+                new WriteResponse(writeRs.getData())
         );
     }
 
@@ -97,12 +97,12 @@ public class ApiV1SubwayArticleController {
 
     @AllArgsConstructor
     @Getter
-    public static class ModifyResponce {
+    public static class ModifyResponse {
         private final SubwayArticle subwayArticle;
     }
 
     @PatchMapping("/{id}")
-    public RsData<ModifyResponce> modifySubwayArticle(@PathVariable("id") Long id, @Valid @RequestBody ModifyRequest modifyRequest) {
+    public RsData<ModifyResponse> modifySubwayArticle(@PathVariable("id") Long id, @Valid @RequestBody ModifyRequest modifyRequest) {
         Optional<SubwayArticle> optionalSubwayArticle = this.subwayArticleService.findById(id);
         if (optionalSubwayArticle.isEmpty()) {
             return RsData.of(
@@ -118,18 +118,18 @@ public class ApiV1SubwayArticleController {
         return RsData.of(
                 subwayArticleRsData.getResultCode(),
                 subwayArticleRsData.getMsg(),
-                new ModifyResponce(subwayArticleRsData.getData())
+                new ModifyResponse(subwayArticleRsData.getData())
         );
     }
 
     @AllArgsConstructor
     @Getter
-    public static class DeleteResponce {
+    public static class DeleteResponse {
         private final SubwayArticle subwayArticle;
     }
 
     @DeleteMapping("/{id}")
-    public RsData<DeleteResponce> deleteArticle(@PathVariable("id") Long id) {
+    public RsData<DeleteResponse> deleteArticle(@PathVariable("id") Long id) {
         Optional<SubwayArticle> optionalSubwayArticle = this.subwayArticleService.findById(id);
         if (optionalSubwayArticle.isEmpty()) {
             return RsData.of(
@@ -142,7 +142,7 @@ public class ApiV1SubwayArticleController {
         return RsData.of(
                 deletedRsData.getResultCode(),
                 deletedRsData.getMsg(),
-                new DeleteResponce(deletedRsData.getData())
+                new DeleteResponse(deletedRsData.getData())
         );
     }
 }
