@@ -1,5 +1,6 @@
 package com.proj.Matjalal.domain.ingredient.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.subway.entitiy.SubwayArticle;
 import com.proj.Matjalal.global.jpa.BaseEntity;
@@ -25,7 +26,9 @@ public class Ingredient extends BaseEntity {
     private String name;
     private String type;
 
+
     @ManyToMany(mappedBy = "ingredients")
+    @JsonIgnore
     private List<SubwayArticle> subwayArticles = new ArrayList<>();
 }
 

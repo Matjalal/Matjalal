@@ -11,7 +11,6 @@ type memberInterface = {
     email: string
 }
 interface ingredientsInterface {
-    id: string,
     name: string,
     type: string
 }
@@ -21,29 +20,34 @@ export default function SubwayArticleForm() {
     const router = useRouter();
     const [member, setMember] = useState<memberInterface>();
     const [selectedIngredients, setSelectedIngredients] = useState<ingredientsInterface[]>([]);
-    const [article, setArticle] = useState({ title: '', content: '' });
-    
-    useEffect(() => {
-        api.get("/members/me")
-            .then(response => setMember(response.data.data.memberDTO))
-            .catch(err => {
-                console.log(err)
-            })
-    }, [])
+    const [article, setArticle] = useState({ subject: '', content: '' });
 
-    
-    
-    const handleIngredientChange = (ingredients: ingredientsInterface[]) => {
-        setSelectedIngredients(ingredients);
+    // useEffect(() => {
+    //     api.get("/members/me")
+    //         .then(response => setMember(response.data.data.memberDTO))
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }, [])
+
+
+
+    const handleIngredientChange = (ingredientType: string, checkedIngredients: ingredientsInterface[]) => {
+        setSelectedIngredients(prevIngredients => {
+            // Remove previously selected ingredients of the same type
+            const updatedIngredients = prevIngredients.filter(item => item.type !== ingredientType);
+            // Add newly selected ingredients
+            return [...updatedIngredients, ...checkedIngredients];
+        });
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         try {
-            await api.post("http://localhost:8090/api/v1/subwayArticles/", {
-                title: article.title,
+            await api.post("http://localhost:8090/api/v1/subway-articles", {
+                subject: article.subject,
                 content: article.content,
-                author: member,
+                // author: member,
                 ingredients: selectedIngredients
             });
             console.log("Article updated successfully!");
@@ -68,30 +72,33 @@ export default function SubwayArticleForm() {
         <>
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-wrap lg:w-2/3 w-full  flex-col mx-auto px-8 sm:space-x-4  space-y-4 sm:px-0 ">
-                <div className="flex justify-around space-x-4 pl-4">
-                    <div className="flex items-center">
-                        <span role="img" aria-label="sandwich">🥪</span>
+                    {/* 이모티콘 상자 */}
+                    <div className="flex justify-around space-x-4 pl-4">
+                        <div className="flex items-center">
+                            <span role="img" aria-label="sandwich" className="text-lg">🥪</span>
+                        </div>
+                        <div className="flex items-center">
+                            <span role="img" aria-label="bread" className="text-lg">🍞</span>
+                        </div>
+                        <div className="flex items-center">
+                            <span role="img" aria-label="cheese" className="text-lg">🧀</span>
+                        </div>
+                        <div className="flex items-center">
+                            <span role="img" aria-label="vegetable" className="text-lg">🥗</span>
+                        </div>
+                        <div className="flex items-center">
+                            <span role="img" aria-label="sauce" className="text-lg">🍅</span>
+                        </div>
                     </div>
-                    <div className="flex items-center">
-                        <span role="img" aria-label="bread">🍞</span>
-                    </div>
-                    <div className="flex items-center">
-                        <span role="img" aria-label="cheese">🧀</span>
-                    </div>
-                    <div className="flex items-center">
-                        <span role="img" aria-label="vegetable">🥗</span>
-                    </div>
-                    <div className="flex items-center">
-                        <span role="img" aria-label="sauce">🍅</span>
-                    </div>
-                </div>                    
+                    {/* 재료 체크박스 */}
                     <div className="flex space-x-4 pl-4">
-                    <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="subwayMenu" maxChecked={1}/>
-                    <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="bread" maxChecked={1}/>
-                    <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="cheese" maxChecked={1}/>
-                    <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="vegetable" maxChecked={8}/>
-                    <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="sauce" maxChecked={3}/>
+                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="subwayMenu" maxChecked={1} />
+                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="bread" maxChecked={1} />
+                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="cheese" maxChecked={1} />
+                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="vegetable" maxChecked={8} />
+                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="sauce" maxChecked={3} />
                     </div>
+                    {/* 제목 */}
                     <div className="relative flex-grow w-full">
                         <label htmlFor="subject" className="leading-7 text-sm text-gray-600">
                             제목
@@ -101,8 +108,10 @@ export default function SubwayArticleForm() {
                             id="subject"
                             name="subject"
                             className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            onChange={handleChange}
                         />
                     </div>
+                    {/* 내용 */}
                     <div className="relative flex-grow w-full">
                         <label htmlFor="content" className="leading-7 text-sm text-gray-600">
                             내용
@@ -111,9 +120,10 @@ export default function SubwayArticleForm() {
                             id="content"
                             name="content"
                             className="w-full h-40 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            onChange={handleChange}
                         />
                     </div>
-                    <button className="text-white  bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
+                    <button type="submit" className="text-white  bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
                         create
                     </button>
                 </div>

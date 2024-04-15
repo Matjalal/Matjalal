@@ -2,6 +2,7 @@ package com.proj.Matjalal.domain.subway.controller;
 
 
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
+import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.subway.entitiy.SubwayArticle;
 import com.proj.Matjalal.domain.subway.service.SubwayArticleService;
 import com.proj.Matjalal.global.RsData.RsData;
@@ -64,6 +65,8 @@ public class ApiV1SubwayArticleController {
         private String content;
         @NotBlank
         private List<Ingredient> ingredients;
+        @NotBlank
+        private Member member;
     }
 
     @AllArgsConstructor
@@ -75,7 +78,8 @@ public class ApiV1SubwayArticleController {
 
     @PostMapping("")
     public RsData<WriteResponse> write(@RequestBody WriteRequest writeRequest) {
-        RsData<SubwayArticle> writeRs = this.subwayArticleService.create(null, writeRequest.getSubject(), writeRequest.getContent(), writeRequest.getIngredients());
+        List<Ingredient> ingredients = writeRequest.ingredients;
+        RsData<SubwayArticle> writeRs = this.subwayArticleService.create(null, writeRequest.getSubject(), writeRequest.getContent(), ingredients);
         if (writeRs.isFail()) return (RsData) writeRs;
 
         return RsData.of(

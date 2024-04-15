@@ -52,9 +52,9 @@ public class NotProd {
             ingredientService.create("페퍼로니", typeName);
             // [치즈]
             typeName = "cheese";
-            ingredientService.create("양상추", typeName);
-            ingredientService.create("토마토", typeName);
-            ingredientService.create("오이", typeName);
+            ingredientService.create("아메리칸 치즈", typeName);
+            ingredientService.create("슈레드 치즈", typeName);
+            ingredientService.create("모짜렐라 치즈", typeName);
             // [야채]
             typeName = "vegetable";
             ingredientService.create("양상추", typeName);

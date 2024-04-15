@@ -6,6 +6,7 @@ import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.subway.entitiy.SubwayArticle;
 import com.proj.Matjalal.domain.subway.repository.SubwayRepository;
 import com.proj.Matjalal.global.RsData.RsData;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class SubwayArticleService {
         return this.subwayRepository.findById(id);
     }
 
+    @Transactional
     public RsData<SubwayArticle> create(Member member, String subject, String content, List<Ingredient> ingredients) {
         SubwayArticle subwayArticle = SubwayArticle.builder()
                 .subject(subject)
