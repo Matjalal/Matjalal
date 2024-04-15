@@ -1,7 +1,7 @@
-package com.proj.Matjalal.domain.gongcha.article.service;
+package com.proj.Matjalal.domain.gongcha.service;
 
-import com.proj.Matjalal.domain.gongcha.article.entity.GongchaArticle;
-import com.proj.Matjalal.domain.gongcha.article.repository.GongchaArticleRepository;
+import com.proj.Matjalal.domain.gongcha.entity.GongchaArticle;
+import com.proj.Matjalal.domain.gongcha.repository.GongchaArticleRepository;
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
 import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.global.RsData.RsData;

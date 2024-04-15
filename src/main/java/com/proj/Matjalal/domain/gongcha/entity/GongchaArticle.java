@@ -1,4 +1,4 @@
-package com.proj.Matjalal.domain.gongcha.article.entity;
+package com.proj.Matjalal.domain.gongcha.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;

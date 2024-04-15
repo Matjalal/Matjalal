@@ -1,7 +1,7 @@
-package com.proj.Matjalal.domain.gongcha.article.controller;
+package com.proj.Matjalal.domain.gongcha.controller;
 
-import com.proj.Matjalal.domain.gongcha.article.entity.GongchaArticle;
-import com.proj.Matjalal.domain.gongcha.article.service.GongchaArticleService;
+import com.proj.Matjalal.domain.gongcha.entity.GongchaArticle;
+import com.proj.Matjalal.domain.gongcha.service.GongchaArticleService;
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
 import com.proj.Matjalal.global.RsData.RsData;
 import jakarta.validation.Valid;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/gongcha/articles")
+@RequestMapping("/api/v1/gongchaArticles")
 public class ApiV1GongchaArticleController {
     private final GongchaArticleService gongchaArticleService;
 
