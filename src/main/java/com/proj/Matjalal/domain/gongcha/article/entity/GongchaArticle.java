@@ -25,8 +25,7 @@ public class GongchaArticle extends BaseEntity {
     private String subject;
     private String content;
     @ManyToOne
-    @JsonIgnore //Could not write JSON: failed to lazily initialize a collection: could not initialize proxy - no Session 에러로 일단 jsonignore 처리
     private Member author;
-    @ManyToMany // ?????????????????? 모르겠음 List랑 게시글이랑 관계를 어떻게 맺어야 할지
+    @ManyToMany
     private List<Ingredient> ingredients = new ArrayList<>();
 }
