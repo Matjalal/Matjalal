@@ -57,11 +57,12 @@ const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientCha
 
     return (
         <div className="relative flex-grow w-full">
-            <label>{ingredientType}</label>
-
+            <label  className="text-lg font-bold">{ingredientType}</label>
+            <br/>
+            <label  className="text-sm font-bold">최대 {maxChecked}개!</label>
             {ingredients.map(ingredient =>
                 <div>
-                    <input type="checkbox" id={ingredient.id} name={ingredient.name} onChange={(e) => handleIngredientChange(e, ingredient)} />
+                    <input type="checkbox" id={ingredient.id} name={ingredient.name} onChange={(e) => handleIngredientChange(e, ingredient)} className="w-4 h-4"/>
                     <label htmlFor={ingredient.name}>{ingredient.name}</label>
                 </div>)}
         </div>

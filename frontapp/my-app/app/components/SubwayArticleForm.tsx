@@ -67,12 +67,31 @@ export default function SubwayArticleForm() {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <div className="flex lg:w-2/3 w-full  flex-col mx-auto px-8 sm:space-x-4  space-y-4 sm:px-0 ">
+                <div className="flex flex-wrap lg:w-2/3 w-full  flex-col mx-auto px-8 sm:space-x-4  space-y-4 sm:px-0 ">
+                <div className="flex justify-around space-x-4 pl-4">
+                    <div className="flex items-center">
+                        <span role="img" aria-label="sandwich">🥪</span>
+                    </div>
+                    <div className="flex items-center">
+                        <span role="img" aria-label="bread">🍞</span>
+                    </div>
+                    <div className="flex items-center">
+                        <span role="img" aria-label="cheese">🧀</span>
+                    </div>
+                    <div className="flex items-center">
+                        <span role="img" aria-label="vegetable">🥗</span>
+                    </div>
+                    <div className="flex items-center">
+                        <span role="img" aria-label="sauce">🍅</span>
+                    </div>
+                </div>                    
+                    <div className="flex space-x-4 pl-4">
                     <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="subwayMenu" maxChecked={1}/>
                     <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="bread" maxChecked={1}/>
                     <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="cheese" maxChecked={1}/>
                     <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="vegetable" maxChecked={8}/>
                     <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="sauce" maxChecked={3}/>
+                    </div>
                     <div className="relative flex-grow w-full">
                         <label htmlFor="subject" className="leading-7 text-sm text-gray-600">
                             제목
