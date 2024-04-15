@@ -31,7 +31,7 @@ public class ApiV1GongchaArticleController {
 
     //다건 조회
     @GetMapping("")
-    private RsData<ArticlesResponse> getArticls() {
+    private RsData<ArticlesResponse> getArticles() {
         List<GongchaArticle> Articles = this.gongchaArticleService.getAll();
 
         return RsData.of("S-1", "성공", new ArticlesResponse(Articles));
