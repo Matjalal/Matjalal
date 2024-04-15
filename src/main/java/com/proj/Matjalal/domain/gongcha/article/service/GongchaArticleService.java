@@ -63,13 +63,11 @@ public class GongchaArticleService {
             return RsData.of("F-3", "%d 번 게시물은 존재하지 않습니다.".formatted(id), null);
         }
 
-        DeleteArticle deleteArticle = new DeleteArticle(og.get());
-
         try {
             this.gongchaArticleRepository.delete(og.get());
         } catch (Exception e) {
-            return RsData.of("F-4", "%d 번 게시물 삭제 실패".formatted(deleteArticle.getArticle().getId()), null);
+            return RsData.of("F-4", "%d 번 게시물 삭제 실패".formatted(og.get().getId()), null);
         }
-        return RsData.of("S-5", "%d 번 게시물이 삭제되었습니다.".formatted(deleteArticle.getArticle().getId(), deleteArticle.getArticle()));
+        return RsData.of("S-5", "%d 번 게시물이 삭제되었습니다.".formatted(og.get().getId()), og.get());
     }
 }

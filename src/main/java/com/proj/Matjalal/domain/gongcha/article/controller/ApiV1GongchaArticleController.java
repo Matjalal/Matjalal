@@ -132,6 +132,5 @@ public class ApiV1GongchaArticleController {
         RsData<GongchaArticle> deleteRs = this.gongchaArticleService.delete(id);
 
         return RsData.of(deleteRs.getResultCode(), deleteRs.getMsg(), new DeleteResponse(deleteRs.getData()));
-        // article null 문제 해결 필요
     }
 }
