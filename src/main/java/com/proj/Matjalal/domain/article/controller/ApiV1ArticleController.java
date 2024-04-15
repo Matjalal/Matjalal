@@ -65,20 +65,20 @@ public class ApiV1ArticleController {
 
     @AllArgsConstructor
     @Getter
-    public static class WriteResponce {
+    public static class WriteResponse {
         private final Article article;
     }
 
 
     @PostMapping("")
-    public RsData<WriteResponce> write(@RequestBody WriteRequest writeRequest) {
+    public RsData<WriteResponse> write(@RequestBody WriteRequest writeRequest) {
         RsData<Article> writeRs = this.articleService.create(null, writeRequest.getTitle(), writeRequest.getContent());
         if (writeRs.isFail()) return (RsData) writeRs;
 
         return RsData.of(
                 writeRs.getResultCode(),
                 writeRs.getMsg(),
-                new WriteResponce(writeRs.getData())
+                new WriteResponse(writeRs.getData())
         );
     }
 
@@ -92,12 +92,12 @@ public class ApiV1ArticleController {
 
     @AllArgsConstructor
     @Getter
-    public static class ModifyResponce {
+    public static class ModifyResponse {
         private final Article article;
     }
 
     @PatchMapping("/{id}")
-    public RsData<ModifyResponce> modifyArticle(@PathVariable("id") Long id, @Valid @RequestBody ModifyRequest modifyRequest) {
+    public RsData<ModifyResponse> modifyArticle(@PathVariable("id") Long id, @Valid @RequestBody ModifyRequest modifyRequest) {
         Optional<Article> optionalArticle = this.articleService.findById(id);
         if (optionalArticle.isEmpty()) {
             return RsData.of(
@@ -113,18 +113,18 @@ public class ApiV1ArticleController {
         return RsData.of(
                 articleRsData.getResultCode(),
                 articleRsData.getMsg(),
-                new ModifyResponce(articleRsData.getData())
+                new ModifyResponse(articleRsData.getData())
         );
     }
 
     @AllArgsConstructor
     @Getter
-    public static class DeleteResponce {
+    public static class DeleteResponse {
         private final Article article;
     }
 
     @DeleteMapping("/{id}")
-    public RsData<DeleteResponce> deleteArticle(@PathVariable("id") Long id) {
+    public RsData<DeleteResponse> deleteArticle(@PathVariable("id") Long id) {
         Optional<Article> optionalArticle = this.articleService.findById(id);
         if (optionalArticle.isEmpty()) {
             return RsData.of(
@@ -137,7 +137,7 @@ public class ApiV1ArticleController {
         return RsData.of(
                 deletedRsData.getResultCode(),
                 deletedRsData.getMsg(),
-                new DeleteResponce(deletedRsData.getData())
+                new DeleteResponse(deletedRsData.getData())
         );
     }
 
