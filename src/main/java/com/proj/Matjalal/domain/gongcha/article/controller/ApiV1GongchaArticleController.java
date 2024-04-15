@@ -68,6 +68,7 @@ public class ApiV1GongchaArticleController {
         @NotBlank
         private List<Ingredient> ingredients;
     }
+
     //게시물 생성 완료 응답 DTO
     @Getter
     @AllArgsConstructor
@@ -127,11 +128,10 @@ public class ApiV1GongchaArticleController {
     //단건 게시물 삭제
     @DeleteMapping("/{id}")
     public RsData<DeleteResponse> deleteArticle(@PathVariable(value = "id") Long id) {
-        Optional<GongchaArticle> og = this.gongchaArticleService.getArticle(id);
-        if (og.isEmpty()) {
-            return RsData.of("F-3", "%d 번 게시물은 존재하지 않습니다.".formatted(id), null);
-        }
-        RsData<GongchaArticle> deleteRs = this.gongchaArticleService.deleteByArticle(og.get());
+
+        RsData<GongchaArticle> deleteRs = this.gongchaArticleService.delete(id);
+
         return RsData.of(deleteRs.getResultCode(), deleteRs.getMsg(), new DeleteResponse(deleteRs.getData()));
+        // article null 문제 해결 필요
     }
 }
