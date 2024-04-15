@@ -19,7 +19,7 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/subwayArticles")
+@RequestMapping("/api/v1/subway-articles")
 public class ApiV1SubwayArticleController {
     private final SubwayArticleService subwayArticleService;
 
