@@ -1,8 +1,7 @@
 package com.proj.Matjalal.domain.ingredient.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.proj.Matjalal.domain.member.entity.Member;
-import com.proj.Matjalal.domain.subway.entitiy.SubwayArticle;
+import com.proj.Matjalal.domain.article.entity.Article;
 import com.proj.Matjalal.global.jpa.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
