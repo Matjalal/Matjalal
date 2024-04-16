@@ -26,7 +26,7 @@ public class SubwayArticle extends BaseEntity {
     @ManyToOne
     private Member author;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "subwayArticle_ingredient",
             joinColumns = @JoinColumn(name = "subwayArticle_id"),

@@ -1,10 +1,9 @@
 'use client'
 import api from "@/app/utils/api";
-import { useParams, useRouter } from "next/navigation";
+// import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import IngredientCheckBox from "./IngredientCheckBox";
 type memberInterface = {
-    id: number,
     createdDate: string,
     modifiedDate: string,
     username: string,
@@ -16,30 +15,39 @@ interface ingredientsInterface {
 }
 
 export default function SubwayArticleForm() {
-    const idParam = useParams();
-    const router = useRouter();
     const [member, setMember] = useState<memberInterface>();
     const [selectedIngredients, setSelectedIngredients] = useState<ingredientsInterface[]>([]);
     const [article, setArticle] = useState({ subject: '', content: '' });
 
-    // useEffect(() => {
-    //     api.get("/members/me")
-    //         .then(response => setMember(response.data.data.memberDTO))
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    // }, [])
+    useEffect(() => {
+        api.get("/members/me")
+            .then(response => setMember(response.data.data.memberDTO))
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
 
 
-    const handleIngredientChange = (ingredientType: string, checkedIngredients: ingredientsInterface[]) => {
-        setSelectedIngredients(prevIngredients => {
-            // Remove previously selected ingredients of the same type
-            const updatedIngredients = prevIngredients.filter(item => item.type !== ingredientType);
-            // Add newly selected ingredients
-            return [...updatedIngredients, ...checkedIngredients];
-        });
-    }
+    const onIngredientChange = (checkedIngredients: ingredientsInterface[]) => {
+        const isDuplicated = (ingredient: ingredientsInterface) => {
+            return selectedIngredients.some(item => item === ingredient);
+        };
+    
+        // 중복된 재료가 없는 새로운 재료 배열
+        const newIngredients = checkedIngredients.filter(ingredient => !isDuplicated(ingredient));
+    
+        // 새로운 재료 배열을 기존 선택된 재료 배열에 추가
+        setSelectedIngredients(prevIngredients => [...prevIngredients, ...newIngredients]);
+        // Remove previously selected ingredients of the same type
+    };
+
+    const onIngredientRemove = (removedIngredient: ingredientsInterface) => {
+        // 선택된 재료 배열에서 제거할 재료를 제외하고 새로운 배열 생성
+        const updatedIngredients = selectedIngredients.filter(ingredient => ingredient !== removedIngredient);
+        setSelectedIngredients(updatedIngredients);
+    };
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
@@ -47,7 +55,7 @@ export default function SubwayArticleForm() {
             await api.post("http://localhost:8090/api/v1/subway-articles", {
                 subject: article.subject,
                 content: article.content,
-                // author: member,
+                author: member,
                 ingredients: selectedIngredients
             });
             console.log("Article updated successfully!");
@@ -92,11 +100,11 @@ export default function SubwayArticleForm() {
                     </div>
                     {/* 재료 체크박스 */}
                     <div className="flex space-x-4 pl-4">
-                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="subwayMenu" maxChecked={1} />
-                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="bread" maxChecked={1} />
-                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="cheese" maxChecked={1} />
-                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="vegetable" maxChecked={8} />
-                        <IngredientCheckBox onIngredientChange={handleIngredientChange} ingredientType="sauce" maxChecked={3} />
+                        <IngredientCheckBox onIngredientChange={onIngredientChange} onIngredientRemove={onIngredientRemove} ingredientType="subwayMenu" maxChecked={1} />
+                        <IngredientCheckBox onIngredientChange={onIngredientChange} onIngredientRemove={onIngredientRemove} ingredientType="bread" maxChecked={1} />
+                        <IngredientCheckBox onIngredientChange={onIngredientChange} onIngredientRemove={onIngredientRemove} ingredientType="cheese" maxChecked={1} />
+                        <IngredientCheckBox onIngredientChange={onIngredientChange} onIngredientRemove={onIngredientRemove} ingredientType="vegetable" maxChecked={8} />
+                        <IngredientCheckBox onIngredientChange={onIngredientChange} onIngredientRemove={onIngredientRemove} ingredientType="sauce" maxChecked={3} />
                     </div>
                     {/* 제목 */}
                     <div className="relative flex-grow w-full">
