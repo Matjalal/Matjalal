@@ -3,6 +3,7 @@ import api from "@/app/utils/api";
 // import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import IngredientCheckBox from "./IngredientCheckBox";
+import { useRouter } from "next/navigation";
 type memberInterface = {
     createdDate: string,
     modifiedDate: string,
@@ -16,6 +17,7 @@ interface ingredientsInterface {
 }
 
 export default function SubwayArticleForm() {
+    const router = useRouter();
     const [member, setMember] = useState<memberInterface>();
     const [selectedIngredients, setSelectedIngredients] = useState<ingredientsInterface[]>([]);
     const [article, setArticle] = useState({ subject: '', content: '' });
@@ -53,17 +55,19 @@ export default function SubwayArticleForm() {
         e.preventDefault();
 
         try {
-            await api.post("http://localhost:8090/api/v1/articles", {
+            await api.post("/articles", {
                 subject: article.subject,
                 content: article.content,
                 author: member,
                 ingredients: selectedIngredients,
                 brand: "subway"
             });
-            console.log("Article updated successfully!");
+            console.log("Article created successfully!");
+            router.push("/subway/articles")
+
             // 추가적인 로직이 필요한 경우 여기에 작성
         } catch (error) {
-            console.error("An error occurred while updating the article:", error);
+            console.error("An error occurred while creating the article:", error);
             // 에러 처리 로직을 추가할 수 있습니다. 예를 들어, 사용자에게 오류 메시지를 표시하거나 다시 시도할 수 있도록 유도할 수 있습니다.
         }
     }

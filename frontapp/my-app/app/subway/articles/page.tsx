@@ -1,4 +1,5 @@
 import SubwayArticleBox from "@/app/components/SubwayArticleBox";
+import Link from "next/link"
 export default function SubwayArticles() {
     return (
         <>
@@ -14,34 +15,10 @@ export default function SubwayArticles() {
                     </div>
                     
                     <div className="flex flex-wrap -m-4">
-                        <div className="xl:w-1/3 md:w-1/2 p-4">
-                            <div className="border border-gray-200 p-6 rounded-lg">
-                                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-green-100 text-green-500 mb-4">
-                                    <svg
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        className="w-6 h-6"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                                    </svg>
-                                </div>
-                                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                                    Shooting Stars
-                                </h2>
-                                <p className="leading-relaxed text-base">
-                                    Fingerstache flexitarian street art 8-bit waist co, subway tile poke
-                                    farm.
-                                </p>
-                            </div>
-                        </div>
-                        <SubwayArticleBox />
+                        <SubwayArticleBox brand="subway" />
                     </div>
                     <button className="flex mx-auto mt-16 text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">
-                        Button
+                        <Link href="http://localhost:3000/subway/forms">나만의 레시피 등록하기</Link>
                     </button>
                 </div>
             </section>
