@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -26,9 +24,8 @@ public class Ingredient extends BaseEntity {
     private String name;
     private String type;
 
-
     @ManyToMany(mappedBy = "ingredients")
     @JsonIgnore
-    private List<SubwayArticle> subwayArticles = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
 }
 
