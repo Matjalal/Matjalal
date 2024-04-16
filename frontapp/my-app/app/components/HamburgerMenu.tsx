@@ -24,17 +24,24 @@ export default function HamburgerMenu() {
                 style={{ height: '100vh' }}>
                 <div className='flex flex-col'>
                     <div className="flex justify-center">
-                        <Link className="hover:bg-sky-500 rounded-lg text-white my-2 py-2 px-24" href="/home/index">
-                            <img src="/home-icon.svg" alt="home-icon" />Home</Link>
+                        <Link className="flex hover:bg-sky-500 rounded-lg text-white mt-4 py-1 w-3/4" href="/home/index">
+                            <img src="/home-icon.svg" alt="home-icon" /><span>홈</span>
+                        </Link>
                     </div>
                     <div className="flex justify-center">
-                        <Link href="/subway/articles">서브웨이 메뉴 게시판</Link>
+                        <Link className="flex hover:bg-sky-500 rounded-lg text-white mt-4 py-1 w-3/4" href="/subway/articles">
+                            <img src="/fastfood-icon.svg" alt="home-icon" /><span>서브웨이 게시판</span>
+                        </Link>
                     </div>
                     <div className="flex justify-center">
-                        <Link href="/gongcha/articles">공차 메뉴 게시판</Link>
+                        <Link className="flex hover:bg-sky-500 rounded-lg text-white mt-4 py-1 w-3/4" href="/gongcha/articles">
+                            <img src="/tea-icon.svg" alt="home-icon" /><span>공차 메뉴 게시판</span>
+                        </Link>
                     </div>
                     <div className="flex justify-center">
-                        <Link href="#">랜덤 메뉴 추천</Link>
+                        <Link className="flex hover:bg-sky-500 rounded-lg text-white mt-4 py-1 w-3/4" href="#">
+                            <img src="/dice-icon.svg" alt="home-icon" /><span>랜덤 메뉴 추천</span>
+                        </Link>
                     </div>
                 </div>
             </div>
