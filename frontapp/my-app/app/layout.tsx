@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import "./home.css";
 import Footer from "./components/Footer";
 import Link from "next/link";
 import HamburgerMenu from "./components/HamburgerMenu";
 
-const inter = Inter({ subsets: ["latin"] });
+const noto_sans = Noto_Sans_KR({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Matjalal",
@@ -25,12 +25,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Jersey+10+Charted&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet" />
-
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet"></link>
       </head>
-      <body className={inter.className}>
+      <body className={noto_sans.className}>
         <div className="flex justify-between mx-5 my-5">
           <HamburgerMenu />
           <Link href="/member/login"><img className="size-10" src="/lock-icon.svg" alt="Locker Icon Image" /></Link>

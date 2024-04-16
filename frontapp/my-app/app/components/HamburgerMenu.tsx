@@ -20,22 +20,23 @@ export default function HamburgerMenu() {
                     <img className="size-10" src="/menu-icon.svg" alt="Menu Icon Image" />
                 )}
             </button>
-            <div className={`fixed lg:w-64 bg-gray-200 ${sidebarOpen ? 'left-0' : '-left-64'} mt-12 transition-all opacity-90 duration-300 ease-in-out`}
+            <div className={`fixed lg:w-64 bg-gray-800 ${sidebarOpen ? 'left-0' : '-left-64'} mt-12 transition-all opacity-100 duration-300 ease-in-out`}
                 style={{ height: '100vh' }}>
-                <ul className='grid grid-cols-1 gap-4'>
-                    <li>
-                        <Link href="/home/index">홈</Link>
-                    </li>
-                    <li>
+                <div className='flex flex-col'>
+                    <div className="flex justify-center">
+                        <Link className="hover:bg-sky-500 rounded-lg text-white my-2 py-2 px-24" href="/home/index">
+                            <img src="/home-icon.svg" alt="home-icon" />Home</Link>
+                    </div>
+                    <div className="flex justify-center">
                         <Link href="/subway/articles">서브웨이 메뉴 게시판</Link>
-                    </li>
-                    <li>
+                    </div>
+                    <div className="flex justify-center">
                         <Link href="/gongcha/articles">공차 메뉴 게시판</Link>
-                    </li>
-                    <li>
+                    </div>
+                    <div className="flex justify-center">
                         <Link href="#">랜덤 메뉴 추천</Link>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     );
