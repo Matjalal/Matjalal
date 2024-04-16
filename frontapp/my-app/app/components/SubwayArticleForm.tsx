@@ -10,6 +10,7 @@ type memberInterface = {
     email: string
 }
 interface ingredientsInterface {
+    id: string,
     name: string,
     type: string
 }
@@ -52,11 +53,12 @@ export default function SubwayArticleForm() {
         e.preventDefault();
 
         try {
-            await api.post("http://localhost:8090/api/v1/subway-articles", {
+            await api.post("http://localhost:8090/api/v1/articles", {
                 subject: article.subject,
                 content: article.content,
                 author: member,
-                ingredients: selectedIngredients
+                ingredients: selectedIngredients,
+                brand: "subway"
             });
             console.log("Article updated successfully!");
             // 추가적인 로직이 필요한 경우 여기에 작성

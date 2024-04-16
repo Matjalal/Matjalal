@@ -70,6 +70,8 @@ public class ApiV1ArticleController {
         private List<Ingredient> ingredients;
         @NotBlank
         private Member author;
+        @NotBlank
+        private String brand;
     }
 
     //게시물 생성 완료 응답 DTO
@@ -83,7 +85,7 @@ public class ApiV1ArticleController {
     @PostMapping("")
     public RsData<CreateResponse> createArticle(@RequestBody CreateRequest CreateRequest) {
         RsData<Article> createRs = this.articleService.create(null, CreateRequest.getSubject(),
-                CreateRequest.getContent(), CreateRequest.ingredients);
+                CreateRequest.getContent(), CreateRequest.getIngredients(), CreateRequest.getBrand());
         if (createRs.isFail()) {
             return (RsData) createRs;
         }

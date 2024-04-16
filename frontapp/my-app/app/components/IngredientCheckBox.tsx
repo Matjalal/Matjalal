@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
 interface ingredientsInterface {
+    id: string,
     name: string,
     type: string
 }
@@ -69,8 +70,8 @@ const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientCha
             <br />
             <label className="text-sm font-bold">최대 {maxChecked}개!</label>
             {ingredients.map(ingredient =>
-                <div key={ingredient.name}>
-                    <input type="checkbox" id={ingredient.name} name={ingredient.name} onChange={(e) => handleIngredientChange(e, ingredient)} className="w-4 h-4" />
+                <div key={ingredient.id.toString()}>
+                    <input type="checkbox" id={ingredient.name} name={ingredient.name} onChange={(e) => handleIngredientChange(e, ingredient)} className="w-4 h-4 mr-1" />
                     <label htmlFor={ingredient.name}>{ingredient.name}</label>
                 </div>)}
         </div>
