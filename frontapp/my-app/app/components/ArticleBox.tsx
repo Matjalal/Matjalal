@@ -19,7 +19,7 @@ interface authorType  {
 interface SubwayArticleBoxProps {
   brand: string;
 }
- const SubwayArticleBox: React.FC<SubwayArticleBoxProps> =  ({brand}) => {
+ const ArticleBox: React.FC<SubwayArticleBoxProps> =  ({brand}) => {
   const [articles, setArticles] = useState<articlesInterface[]>([]);
 
   const fetchArticles = () => {
@@ -70,4 +70,4 @@ interface SubwayArticleBoxProps {
     </>
   )
 }
-export default SubwayArticleBox;
+export default ArticleBox;
