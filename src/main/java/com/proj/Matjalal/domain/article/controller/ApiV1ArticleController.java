@@ -26,22 +26,22 @@ public class ApiV1ArticleController {
     @Getter
     @AllArgsConstructor
     public static class ArticlesResponse {
-        private final List<Article> Articles;
+        private final List<Article> articles;
     }
 
     //다건 조회
     @GetMapping("")
     private RsData<ArticlesResponse> getArticles() {
-        List<Article> Articles = this.articleService.getAll();
+        List<Article> articles = this.articleService.getAll();
 
-        return RsData.of("S-1", "성공", new ArticlesResponse(Articles));
+        return RsData.of("S-1", "성공", new ArticlesResponse(articles));
     }
 
     //단건 조회 DTO
     @Getter
     @AllArgsConstructor
     public static class ArticleResponse {
-        private final Article Article;
+        private final Article article;
     }
 
     //단건 조회
@@ -73,7 +73,7 @@ public class ApiV1ArticleController {
     @Getter
     @AllArgsConstructor
     public static class CreateResponse {
-        private final Article Article;
+        private final Article article;
     }
 
     //단건 게시물 생성
