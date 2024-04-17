@@ -1,9 +1,10 @@
 'use client'
 import { useParams } from "next/navigation";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FC } from 'react'
 import Link from "next/link";
 import api from "@/app/utils/api";
-type articleType = {
+import IngredientTypeBox from "./IngredientTypeBox";
+interface articleInterface {
     id: number,
     createdDate: string,
     modifiedDate: string,
@@ -11,6 +12,12 @@ type articleType = {
     content: string,
     brand: string
     author: memberInterface
+    ingredients: ingredientsInterface[]
+}
+interface ingredientsInterface {
+    id: string,
+    name: string,
+    type: string
 }
 type memberInterface = {
     createdDate: string,
@@ -19,13 +26,20 @@ type memberInterface = {
     email: string
 }
 
-const Detail = () => {
-    const [article, setArticle] = useState<articleType>({ id: 0, createdDate: "", modifiedDate: "", subject: "", content: "", brand: "" , author: {
-        createdDate: "",
-        modifiedDate: "",
-        username: "",
-        email: ""
-      }});
+interface DetailProps {
+    color: string
+    types: string[]
+}
+
+const Detail: React.FC<DetailProps> = ({ color, types }) => {
+    const [article, setArticle] = useState<articleInterface>({
+        id: 0, createdDate: "", modifiedDate: "", subject: "", content: "", brand: "", author: {
+            createdDate: "",
+            modifiedDate: "",
+            username: "",
+            email: ""
+        }, ingredients: []
+    });
     const params = useParams();
 
     const fetchArticle = () => {
@@ -63,32 +77,31 @@ const Detail = () => {
                             {article?.subject}
                         </h1>
                         <div className="flex mb-4">
-                            <a className="flex-grow text-green-500 border-b-2 border-green-500 py-2 text-lg px-1">
+                            <a className={`flex-grow text-black-500 border-b-2 border-${color}-500 py-2 text-lg px-1`}>
                                 Description
                             </a>
-                            <a className="flex-grow border-b-2 border-green-500  py-2 text-lg px-1">
+                            <a className={`flex-grow border-b-2 border-${color}-500 py-2 text-lg px-1`}>
                                 📆 {formatDate(article?.createdDate)}
                             </a>
-                            <a className="flex-grow border-b-2 border-green-500  py-2 text-lg px-1">
+                            {/* 멤버 추가시 주석 해제 */}
+                            {/* <a className="flex-grow border-b-2 border-green-500  py-2 text-lg px-1">
                                 👩‍🍳 {article.author.username}
-                            </a>
+                            </a> */}
                         </div>
                         <p className="leading-relaxed mb-4">
                             {article.content}
                         </p>
                         {/* 반복시키기 */}
-                        <div className="flex border-t border-b border-gray-200 py-2">
-                            <span className="text-gray-500">재료 타입</span>
-                            <span className="ml-auto text-gray-900">재료명 <span>| </span></span>
-                        </div>
+                        {types.map(type =>
+                            <IngredientTypeBox article={article} ingredientType={type} />)}
                         <div className="flex mt-2">
                             <span className="title-font font-medium text-2xl text-gray-900">
                                 ✅
                             </span>
-                            <button className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">
+                            <button className={`flex ml-auto text-white bg-${color}-500 border-0 py-2 px-6 focus:outline-none hover:bg-${color}-600 rounded`}>
                                 Button
                             </button>
-                            <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                            <button className={`rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-${color}-500 ml-4`}>
                                 <svg
                                     fill="currentColor"
                                     strokeLinecap="round"
@@ -102,15 +115,15 @@ const Detail = () => {
                             </button>
                         </div>
                     </div>
+                    {/* 추후 이미지 추가 시 주석 */}
                     <img
-                        alt="ecommerce"
+                        alt="article"
                         className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
                         src="https://dummyimage.com/400x400"
                     />
                 </div>
             </div>
         </section>
-
     )
 }
 

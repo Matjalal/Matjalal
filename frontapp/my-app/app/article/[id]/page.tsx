@@ -17,12 +17,12 @@ export default function Article() {
 
   const fetchArticle = () => {
     api.get(`/articles/${params.id}`)
-    .then(
-      response => setArticle(response.data.data.article)
-    ) 
-    .catch (err => {
-      console.log(err)
-    })
+      .then(
+        response => setArticle(response.data.data.article)
+      )
+      .catch(err => {
+        console.log(err)
+      })
   };
 
 
