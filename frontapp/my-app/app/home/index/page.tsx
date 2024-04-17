@@ -3,20 +3,16 @@
 import Link from "next/link"
 import api from "@/app/utils/api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function HomeIndex() {
-
-    const [randomRouteId, setRandomRouteId] = useState(0);
     const router = useRouter();
 
     const handleRandomMenu = async (brand) => {
         await api.get(`/articles/${brand}/random`)
-            .then(res => setRandomRouteId(res.data.data))
-        console.log(randomRouteId);
-        router.push(`/${brand}/articles`)
+            .then(res => {
+                router.push(`/${brand}/${res.data.data}`)   
+            })
     }
-
     return (
         <>
             <div className="text-6xl flex justify-center mt-24">
