@@ -4,6 +4,7 @@ import { useState, useEffect, FC } from 'react'
 import Link from "next/link";
 import api from "@/app/utils/api";
 import IngredientTypeBox from "./IngredientTypeBox";
+import ReviewBox from "./ReviewBox";
 interface articleInterface {
     id: number,
     createdDate: string,
@@ -25,6 +26,12 @@ type memberInterface = {
     username: string,
     email: string
 }
+interface ReviewInterface {
+    content: string,
+    createdDate: string,
+    modifiedDate: string,
+    author: memberInterface
+}
 
 interface DetailProps {
     color: string
@@ -41,6 +48,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
         }, ingredients: []
     });
     const params = useParams();
+    const [reviews, setReviews] = useState<ReviewInterface[]>([]);
 
     const fetchArticle = () => {
         api.get(`/articles/${params.id}`)
@@ -52,9 +60,20 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
             })
     };
 
+    const fetchReviews = () => {
+        api.get(`/reviews`)
+        .then(
+            response => setReviews(response.data.data.reviews)
+        )
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
 
     useEffect(() => {
         fetchArticle();
+        fetchReviews();
     }, []);
 
     // YY:MM:DD 형식으로 날짜를 표시하기 위한 함수
@@ -68,7 +87,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
     return (
         <section className="text-gray-600 body-font overflow-hidden">
             <div className="container px-5 py-24 mx-auto">
-                <div className="lg:w-4/5 mx-auto flex flex-wrap">
+                <div className="lg:w-4/5 mx-auto flex flex-wrap mb-10">
                     <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
                         <h2 className="text-sm title-font text-gray-500 tracking-widest">
                             {article?.brand}
@@ -122,6 +141,10 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
                         src="https://dummyimage.com/400x400"
                     />
                 </div>
+                {reviews.map(review => 
+                <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
+                    <ReviewBox review={review} formatDate={formatDate}/>
+                </div> )}
             </div>
         </section>
     )

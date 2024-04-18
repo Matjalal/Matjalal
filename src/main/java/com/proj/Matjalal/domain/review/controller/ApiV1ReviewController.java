@@ -87,7 +87,7 @@ public class ApiV1ReviewController {
     //단건 게시물 생성
     @PostMapping("")
     public RsData<CreateResponse> createReview(@RequestBody CreateRequest createRequest) {
-        RsData<Review> createRs = this.reviewService.create(null, createRequest.getArticle(),
+        RsData<Review> createRs = this.reviewService.create(createRequest.getAuthor(), createRequest.getArticle(),
                 createRequest.getContent());
         if (createRs.isFail()) {
             return (RsData) createRs;
