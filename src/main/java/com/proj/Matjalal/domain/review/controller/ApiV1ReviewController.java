@@ -1,6 +1,9 @@
 package com.proj.Matjalal.domain.review.controller;
 
 import com.proj.Matjalal.domain.article.entity.Article;
+import com.proj.Matjalal.domain.ingredient.DTO.IngredientDTO;
+import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
+import com.proj.Matjalal.domain.review.DTO.ReviewDTO;
 import com.proj.Matjalal.domain.review.entity.Review;
 import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.review.service.ReviewService;
@@ -13,6 +16,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,15 +29,19 @@ public class ApiV1ReviewController {
     @Getter
     @AllArgsConstructor
     public static class ReviewsResponse {
-        private final List<Review> reviews;
+        private final List<ReviewDTO> reviews;
     }
 
     //다건 조회
     @GetMapping("")
     public RsData<ReviewsResponse> getReviews() {
         List<Review> reviews = this.reviewService.getAll();
+        List<ReviewDTO> reviewDTOS = new ArrayList<>();
+        for(Review review: reviews){
+            reviewDTOS.add(new ReviewDTO(review));
+        }
 
-        return RsData.of("S-1", "성공", new ReviewsResponse(reviews));
+        return RsData.of("S-1", "성공", new ReviewsResponse(reviewDTOS));
     }
 
 
@@ -41,7 +49,7 @@ public class ApiV1ReviewController {
     @Getter
     @AllArgsConstructor
     public static class ReviewResponse {
-        private final Review review;
+        private final ReviewDTO reviewDTO;
     }
 
     //단건 조회
@@ -50,7 +58,7 @@ public class ApiV1ReviewController {
         return this.reviewService.getReview(id).map(review -> RsData.of(
                 "S-2",
                 "성공",
-                new ReviewResponse(review)
+                new ReviewResponse(new ReviewDTO(review))
         )).orElseGet(() -> RsData.of(
                 "F-1"
                 , "%d 번 게시물은 존재하지 않습니다.".formatted(id),
@@ -73,7 +81,7 @@ public class ApiV1ReviewController {
     @Getter
     @AllArgsConstructor
     public static class CreateResponse {
-        private final Review review;
+        private final ReviewDTO reviewDTO;
     }
 
     //단건 게시물 생성
@@ -84,7 +92,7 @@ public class ApiV1ReviewController {
         if (createRs.isFail()) {
             return (RsData) createRs;
         }
-        return RsData.of(createRs.getResultCode(), createRs.getMsg(), new CreateResponse(createRs.getData()));
+        return RsData.of(createRs.getResultCode(), createRs.getMsg(), new CreateResponse(new ReviewDTO(createRs.getData())));
     }
 
     //게시물 수정 요청 DTO
@@ -98,7 +106,7 @@ public class ApiV1ReviewController {
     @Getter
     @AllArgsConstructor
     public static class UpdateResponse {
-        private final Review review;
+        private final ReviewDTO reviewDTO;
     }
 
     //단건 게시물 수정
@@ -113,14 +121,14 @@ public class ApiV1ReviewController {
         // 수정할 회원의 권한 확인 필요
         RsData<Review> updateRs = this.reviewService.update(optionalReview.get(),
                 updateRequest.getContent());
-        return RsData.of(updateRs.getResultCode(), updateRs.getMsg(), new UpdateResponse(updateRs.getData()));
+        return RsData.of(updateRs.getResultCode(), updateRs.getMsg(), new UpdateResponse(new ReviewDTO(updateRs.getData())));
     }
 
     //단건 게시물 삭제 응답 DTO
     @Getter
     @AllArgsConstructor
     public static class DeleteResponse {
-        private final Review review;
+        private final ReviewDTO reviewDTO;
     }
 
     //단건 게시물 삭제
@@ -129,7 +137,7 @@ public class ApiV1ReviewController {
 
         RsData<Review> deleteRs = this.reviewService.delete(id);
 
-        return RsData.of(deleteRs.getResultCode(), deleteRs.getMsg(), new DeleteResponse(deleteRs.getData()));
+        return RsData.of(deleteRs.getResultCode(), deleteRs.getMsg(), new DeleteResponse(null));
     }
 
 }
