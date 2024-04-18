@@ -1,4 +1,5 @@
 interface ReviewInterface {
+  id: string;
   content: string;
   createdDate: string;
   modifiedDate: string;
@@ -18,7 +19,10 @@ interface ReviewBoxProps {
 const ReviewBox: React.FC<ReviewBoxProps> = ({ review, formatDate }) => {
   return (
     <>
-      <section className="text-gray-600 body-font overflow-hidden mx-auto">
+      <section
+        key={review.id}
+        className="text-gray-600 body-font overflow-hidden mx-auto"
+      >
         <div className="container px-5 py-12 mx-auto">
           <div className="-my-8 divide-y-2 divide-gray-100">
             <div className="py-8 flex flex-wrap md:flex-nowrap">

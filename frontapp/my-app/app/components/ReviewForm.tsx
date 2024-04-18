@@ -1,8 +1,12 @@
-const ReviewForm = () => {
+interface ReviewFormProps {
+  formColor: string;
+}
+const ReviewForm: React.FC<ReviewFormProps> = ({ formColor }) => {
   return (
     <section className="text-gray-600 body-font relative">
       <div className="container px-5 py-3 mx-auto">
         <div className="lg:w-1/1 md:w-3/3 mx-auto">
+          {/* 아래 div부터 form 태그로 묶기 */}
           <div className="flex flex-wrap -m-2">
             <div className="p-2 w-full">
               <div className="relative">
@@ -15,7 +19,7 @@ const ReviewForm = () => {
                 <textarea
                   id="message"
                   name="message"
-                  className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                  className={`w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-${formColor}-500 focus:bg-white focus:ring-2 focus:ring-${formColor}-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out`}
                   defaultValue={""}
                 />
               </div>

@@ -1,7 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useState, useEffect, FC } from "react";
-import Link from "next/link";
 import api from "@/app/utils/api";
 import IngredientTypeBox from "./IngredientTypeBox";
 import ReviewBox from "./ReviewBox";
@@ -28,6 +27,7 @@ type memberInterface = {
   email: string;
 };
 interface ReviewInterface {
+  id: string;
   content: string;
   createdDate: string;
   modifiedDate: string;
@@ -158,9 +158,9 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
             <ReviewBox review={review} formatDate={formatDate} />
           </div>
         ))}
-
+        {/* 비로그인 시 안보이게 만들기 */}
         <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
-          <ReviewForm />
+          <ReviewForm formColor={color} />
         </div>
       </div>
     </section>
