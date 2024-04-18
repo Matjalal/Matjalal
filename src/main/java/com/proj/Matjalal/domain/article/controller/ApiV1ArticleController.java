@@ -37,7 +37,7 @@ public class ApiV1ArticleController {
     public RsData<ArticlesResponse> getArticles() {
         List<Article> articles = this.articleService.getAll();
         List<ArticleDTO> articleDTOS = new ArrayList<>();
-        for(Article article: articles){
+        for (Article article : articles) {
             articleDTOS.add(new ArticleDTO(article));
         }
 
@@ -49,11 +49,12 @@ public class ApiV1ArticleController {
     public static class BrandArticlesResponse {
         private final List<ArticleDTO> articles;
     }
+
     @GetMapping("/{brand}/brands")
-    public RsData<BrandArticlesResponse> getArticlesByBrand(@PathVariable(value = "brand") String brand){
+    public RsData<BrandArticlesResponse> getArticlesByBrand(@PathVariable(value = "brand") String brand) {
         List<Article> articles = this.articleService.getAllByBrand(brand);
         List<ArticleDTO> articleDTOS = new ArrayList<>();
-        for(Article article: articles){
+        for (Article article : articles) {
             articleDTOS.add(new ArticleDTO(article));
         }
 

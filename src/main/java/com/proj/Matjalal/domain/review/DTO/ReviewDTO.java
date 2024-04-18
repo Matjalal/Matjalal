@@ -20,9 +20,9 @@ public class ReviewDTO {
     private Member author;
     @ManyToOne
     private Article article;
-    
 
-    public ReviewDTO(Review review){
+
+    public ReviewDTO(Review review) {
         this.id = review.getId();
         this.content = review.getContent();
         this.author = review.getAuthor();

@@ -15,7 +15,7 @@ public class IngredientDTO {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public IngredientDTO(Ingredient ingredient){
+    public IngredientDTO(Ingredient ingredient) {
         this.id = ingredient.getId();
         this.name = ingredient.getName();
         this.type = ingredient.getType();

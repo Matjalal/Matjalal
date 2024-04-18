@@ -26,7 +26,7 @@ public class ArticleDTO {
     @ManyToMany
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    public ArticleDTO(Article article){
+    public ArticleDTO(Article article) {
         this.id = article.getId();
         this.brand = article.getBrand();
         this.subject = article.getSubject();

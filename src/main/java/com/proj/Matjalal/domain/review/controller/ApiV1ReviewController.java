@@ -37,7 +37,7 @@ public class ApiV1ReviewController {
     public RsData<ReviewsResponse> getReviews() {
         List<Review> reviews = this.reviewService.getAll();
         List<ReviewDTO> reviewDTOS = new ArrayList<>();
-        for(Review review: reviews){
+        for (Review review : reviews) {
             reviewDTOS.add(new ReviewDTO(review));
         }
 

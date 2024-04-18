@@ -2,7 +2,7 @@
 interface ReviewInterface {
     content: string,
     createdDate: string,
-    modifiedDate:string,
+    modifiedDate: string,
     author: AuthorInterface
 }
 interface AuthorInterface {
@@ -16,7 +16,7 @@ interface ReviewBoxProps {
     formatDate: (dateString: string) => string
 }
 
-const ReviewBox: React.FC<ReviewBoxProps> = ({review, formatDate}) => {
+const ReviewBox: React.FC<ReviewBoxProps> = ({ review, formatDate }) => {
     return (
         <>
             <section className="text-gray-600 body-font overflow-hidden mx-auto">

@@ -34,7 +34,7 @@ public class ApiV1IngredientController {
     public RsData<IngredientsResponse> getIngredients() {
         List<Ingredient> ingredients = this.ingredientService.getList();
         List<IngredientDTO> ingredientDTOS = new ArrayList<>();
-        for(Ingredient ingredient: ingredients){
+        for (Ingredient ingredient : ingredients) {
             ingredientDTOS.add(new IngredientDTO(ingredient));
         }
 
@@ -47,10 +47,10 @@ public class ApiV1IngredientController {
     }
 
     @GetMapping("/type/{type}")
-    public RsData<IngredientsResponse> getIngredientsByType(@PathVariable("type") String type){
+    public RsData<IngredientsResponse> getIngredientsByType(@PathVariable("type") String type) {
         List<Ingredient> ingredients = this.ingredientService.getListByType(type);
         List<IngredientDTO> ingredientDTOS = new ArrayList<>();
-        for(Ingredient ingredient: ingredients){
+        for (Ingredient ingredient : ingredients) {
             ingredientDTOS.add(new IngredientDTO(ingredient));
         }
         return RsData.of(
@@ -68,7 +68,7 @@ public class ApiV1IngredientController {
     }
 
     @GetMapping("/{id}")
-    public RsData<IngredientResponse> getIngredient(@PathVariable("id") Long id){
+    public RsData<IngredientResponse> getIngredient(@PathVariable("id") Long id) {
         return this.ingredientService.getIngredient(id).map(ingredient -> RsData.of(
                 "SI-2",
                 "성공",
@@ -87,17 +87,18 @@ public class ApiV1IngredientController {
         @NotBlank
         private String type;
     }
+
     @AllArgsConstructor
     @Getter
     public static class CreateResponce {
-        private final  IngredientDTO ingredientDTO;
+        private final IngredientDTO ingredientDTO;
     }
 
 
     @PostMapping("")
-    public RsData<CreateResponce> create(@RequestBody CreateRequest createRequest){
+    public RsData<CreateResponce> create(@RequestBody CreateRequest createRequest) {
         RsData<Ingredient> createRS = this.ingredientService.create(createRequest.getName(), createRequest.getType());
-        if(createRS.isFail()) return (RsData) createRS;
+        if (createRS.isFail()) return (RsData) createRS;
 
         return RsData.of(
                 createRS.getResultCode(),
@@ -113,16 +114,17 @@ public class ApiV1IngredientController {
         @NotBlank
         private String type;
     }
+
     @AllArgsConstructor
     @Getter
     public static class ModifyResponce {
-        private final  IngredientDTO ingredientDTO;
+        private final IngredientDTO ingredientDTO;
     }
 
     @PatchMapping("/{id}")
-    public RsData<ModifyResponce> modifyIngredient(@PathVariable("id") Long id, @Valid @RequestBody ModifyRequest modifyRequest){
+    public RsData<ModifyResponce> modifyIngredient(@PathVariable("id") Long id, @Valid @RequestBody ModifyRequest modifyRequest) {
         Optional<Ingredient> optionalIngredient = this.ingredientService.findById(id);
-        if(optionalIngredient.isEmpty()){
+        if (optionalIngredient.isEmpty()) {
             return RsData.of(
                     "FI-4",
                     "%s번 재료는 존재하지 않습니다.".formatted(id),
@@ -130,7 +132,7 @@ public class ApiV1IngredientController {
             );
         }
 
-        RsData<Ingredient> ingredientRsData =this.ingredientService.modify(optionalIngredient.get(), modifyRequest.getName(), modifyRequest.getType());
+        RsData<Ingredient> ingredientRsData = this.ingredientService.modify(optionalIngredient.get(), modifyRequest.getName(), modifyRequest.getType());
 
         return RsData.of(
                 ingredientRsData.getResultCode(),
@@ -142,12 +144,13 @@ public class ApiV1IngredientController {
     @AllArgsConstructor
     @Getter
     public static class DeleteResponce {
-        private final  IngredientDTO ingredientDTO;
+        private final IngredientDTO ingredientDTO;
     }
+
     @DeleteMapping("/{id}")
-    public RsData<DeleteResponce> deleteIngredient(@PathVariable("id") Long id){
+    public RsData<DeleteResponce> deleteIngredient(@PathVariable("id") Long id) {
         Optional<Ingredient> optionalIngredient = this.ingredientService.findById(id);
-        if(optionalIngredient.isEmpty()){
+        if (optionalIngredient.isEmpty()) {
             return RsData.of(
                     "FI-5",
                     "%d번 재료가 없어 삭제 실패 했습니다.".formatted(id),

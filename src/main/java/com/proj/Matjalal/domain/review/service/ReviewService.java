@@ -20,6 +20,7 @@ public class ReviewService {
     public List<Review> getAll() {
         return this.reviewRepository.findAll();
     }
+
     public Optional<Review> getReview(Long id) {
         return this.reviewRepository.findById(id);
     }
@@ -37,14 +38,13 @@ public class ReviewService {
     }
 
     @Transactional
-    public RsData<Review> update(Review review,  String content) {
+    public RsData<Review> update(Review review, String content) {
         Review updatedReview = review.toBuilder()
                 .content(content)
                 .build();
         this.reviewRepository.save(updatedReview);
         return RsData.of("S-4", "%d 번 게시글이 수정되었습니다.".formatted(updatedReview.getId()), updatedReview);
     }
-
 
 
     @Transactional

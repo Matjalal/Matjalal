@@ -62,12 +62,12 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
 
     const fetchReviews = () => {
         api.get(`/reviews`)
-        .then(
-            response => setReviews(response.data.data.reviews)
-        )
-        .catch(err => {
-            console.log(err)
-        })
+            .then(
+                response => setReviews(response.data.data.reviews)
+            )
+            .catch(err => {
+                console.log(err)
+            })
     }
 
 
@@ -141,10 +141,13 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
                         src="https://dummyimage.com/400x400"
                     />
                 </div>
-                {reviews.map(review => 
+                {reviews.map(review =>
+                    <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
+                        <ReviewBox review={review} formatDate={formatDate} />
+                    </div>)}
                 <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
-                    <ReviewBox review={review} formatDate={formatDate}/>
-                </div> )}
+                    리뷰 등록 칸
+                </div>
             </div>
         </section>
     )
