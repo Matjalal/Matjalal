@@ -1,5 +1,8 @@
 package com.proj.Matjalal.domain.ingredient.controller;
 
+import com.proj.Matjalal.domain.article.DTO.ArticleDTO;
+import com.proj.Matjalal.domain.article.entity.Article;
+import com.proj.Matjalal.domain.ingredient.DTO.IngredientDTO;
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
 import com.proj.Matjalal.domain.ingredient.service.IngredientService;
 import com.proj.Matjalal.global.RsData.RsData;
@@ -11,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,28 +26,37 @@ public class ApiV1IngredientController {
 
     @Data
     public static class IngredientsResponse {
-        private final List<Ingredient> ingredients;
+        private final List<IngredientDTO> ingredients;
     }
 
     // 다건 요청
     @GetMapping("")
     public RsData<IngredientsResponse> getIngredients() {
         List<Ingredient> ingredients = this.ingredientService.getList();
+        List<IngredientDTO> ingredientDTOS = new ArrayList<>();
+        for(Ingredient ingredient: ingredients){
+            ingredientDTOS.add(new IngredientDTO(ingredient));
+        }
+
 
         return RsData.of(
                 "SI-1",
                 "다건 요청 성공",
-                new IngredientsResponse(ingredients)
+                new IngredientsResponse(ingredientDTOS)
         );
     }
 
     @GetMapping("/type/{type}")
     public RsData<IngredientsResponse> getIngredientsByType(@PathVariable("type") String type){
         List<Ingredient> ingredients = this.ingredientService.getListByType(type);
+        List<IngredientDTO> ingredientDTOS = new ArrayList<>();
+        for(Ingredient ingredient: ingredients){
+            ingredientDTOS.add(new IngredientDTO(ingredient));
+        }
         return RsData.of(
                 "SI-2",
                 "타입별 다건 요청 성공",
-                new IngredientsResponse(ingredients)
+                new IngredientsResponse(ingredientDTOS)
         );
 
     }
@@ -51,7 +64,7 @@ public class ApiV1IngredientController {
     @AllArgsConstructor
     @Getter
     public static class IngredientResponse {
-        private final Ingredient ingredient;
+        private final IngredientDTO ingredientDTO;
     }
 
     @GetMapping("/{id}")
@@ -59,7 +72,7 @@ public class ApiV1IngredientController {
         return this.ingredientService.getIngredient(id).map(ingredient -> RsData.of(
                 "SI-2",
                 "성공",
-                new IngredientResponse(ingredient)
+                new IngredientResponse(new IngredientDTO(ingredient))
         )).orElseGet(() -> RsData.of(
                 "FI-2",
                 "%d 번 재료는 존재하지 않습니다.".formatted(id),
@@ -77,7 +90,7 @@ public class ApiV1IngredientController {
     @AllArgsConstructor
     @Getter
     public static class CreateResponce {
-        private final  Ingredient ingredient;
+        private final  IngredientDTO ingredientDTO;
     }
 
 
@@ -89,7 +102,7 @@ public class ApiV1IngredientController {
         return RsData.of(
                 createRS.getResultCode(),
                 createRS.getMsg(),
-                new CreateResponce(createRS.getData())
+                new CreateResponce(new IngredientDTO(createRS.getData()))
         );
     }
 
@@ -103,7 +116,7 @@ public class ApiV1IngredientController {
     @AllArgsConstructor
     @Getter
     public static class ModifyResponce {
-        private final  Ingredient ingredient;
+        private final  IngredientDTO ingredientDTO;
     }
 
     @PatchMapping("/{id}")
@@ -122,14 +135,14 @@ public class ApiV1IngredientController {
         return RsData.of(
                 ingredientRsData.getResultCode(),
                 ingredientRsData.getMsg(),
-                new ModifyResponce(ingredientRsData.getData())
+                new ModifyResponce(new IngredientDTO(ingredientRsData.getData()))
         );
     }
 
     @AllArgsConstructor
     @Getter
     public static class DeleteResponce {
-        private final  Ingredient ingredient;
+        private final  IngredientDTO ingredientDTO;
     }
     @DeleteMapping("/{id}")
     public RsData<DeleteResponce> deleteIngredient(@PathVariable("id") Long id){
@@ -145,7 +158,7 @@ public class ApiV1IngredientController {
         return RsData.of(
                 deletedRsData.getResultCode(),
                 deletedRsData.getMsg(),
-                new DeleteResponce(deletedRsData.getData())
+                new DeleteResponce(null)
         );
     }
 }

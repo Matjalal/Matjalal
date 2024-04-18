@@ -45,7 +45,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
     const fetchArticle = () => {
         api.get(`/articles/${params.id}`)
             .then(
-                response => setArticle(response.data.data.article)
+                response => setArticle(response.data.data.articleDTO)
             )
             .catch(err => {
                 console.log(err)

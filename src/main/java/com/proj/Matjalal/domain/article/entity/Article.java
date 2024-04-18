@@ -33,4 +33,6 @@ public class Article extends BaseEntity {
     @OneToMany
     @JsonIgnore
     private List<Review> reviews;
+
+
 }
