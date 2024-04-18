@@ -21,11 +21,10 @@ const IngredientTypeBox: React.FC<IngredientTypeBoxProps> = ({
   ingredientType,
 }) => {
   return (
-    <div
-      key={article.id}
-      className="flex border-t border-b border-gray-200 py-2"
-    >
-      <span className="text-gray-500">{ingredientType}</span>
+    <div className="flex border-t border-b border-gray-200 py-2">
+      <span key={ingredientType} className="text-gray-500">
+        {ingredientType}
+      </span>
       {article.ingredients.map(
         (ingredient) =>
           ingredient.type.includes(ingredientType) && (
