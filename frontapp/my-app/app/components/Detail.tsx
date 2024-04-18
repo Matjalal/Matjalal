@@ -95,10 +95,10 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
         <div className="lg:w-4/5 mx-auto flex flex-wrap mb-10">
           <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h2 className="text-sm title-font text-gray-500 tracking-widest">
-              {article?.brand}
+              {article.brand}
             </h2>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
-              {article?.subject}
+              {article.subject}
             </h1>
             <div className="flex mb-4">
               <a
@@ -109,7 +109,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
               <a
                 className={`flex-grow border-b-2 border-${color}-500 py-2 text-lg px-1`}
               >
-                📆 {formatDate(article?.createdDate)}
+                📆 {formatDate(article.createdDate)}
               </a>
               {/* 멤버 추가시 주석 해제 */}
               {/* <a className="flex-grow border-b-2 border-green-500  py-2 text-lg px-1">
