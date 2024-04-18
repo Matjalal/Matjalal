@@ -119,7 +119,9 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
             <p className="leading-relaxed mb-4">{article.content}</p>
             {/* 반복시키기 */}
             {types.map((type) => (
-              <IngredientTypeBox article={article} ingredientType={type} />
+              <div key={type}>
+                <IngredientTypeBox article={article} ingredientType={type} />
+              </div>
             ))}
             <div className="flex mt-2">
               <span className="title-font font-medium text-2xl text-gray-900">
@@ -154,7 +156,10 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
           />
         </div>
         {reviews.map((review) => (
-          <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
+          <div
+            key={review.id}
+            className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10"
+          >
             <ReviewBox review={review} formatDate={formatDate} />
           </div>
         ))}
