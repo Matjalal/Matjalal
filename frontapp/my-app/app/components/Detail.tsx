@@ -5,6 +5,7 @@ import Link from "next/link";
 import api from "@/app/utils/api";
 import IngredientTypeBox from "./IngredientTypeBox";
 import ReviewBox from "./ReviewBox";
+import ReviewForm from "./ReviewForm";
 interface articleInterface {
   id: number;
   createdDate: string;
@@ -157,8 +158,9 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
             <ReviewBox review={review} formatDate={formatDate} />
           </div>
         ))}
+
         <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
-          리뷰 등록 칸
+          <ReviewForm />
         </div>
       </div>
     </section>
