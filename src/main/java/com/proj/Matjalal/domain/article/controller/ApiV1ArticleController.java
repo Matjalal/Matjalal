@@ -161,4 +161,27 @@ public class ApiV1ArticleController {
 
         return RsData.of(deleteRs.getResultCode(), deleteRs.getMsg(), new DeleteResponse(deleteRs.getData()));
     }
+
+    // 게시물 검색 요청 DTO (검색어로)
+
+
+    @Data
+    public static class ArticleSearchRequest {
+        private String brand;
+        private String keyword;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ArticleSearchResponse {
+        private final List<Article> articles;
+    }
+
+    @GetMapping("/search")
+    public RsData<ArticleSearchResponse> searchArticleByKeyword(@RequestParam(value = "brand")String brand,
+                                                                @RequestParam(value = "keyword")String keyword) {
+        List<Article> articleList = this.articleService.searchArticle(brand,keyword);
+
+        return RsData.of("S-6", "성공", new ArticleSearchResponse(articleList));
+    }
 }

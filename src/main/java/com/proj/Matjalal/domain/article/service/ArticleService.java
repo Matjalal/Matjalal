@@ -78,6 +78,12 @@ public class ArticleService {
         return RsData.of("S-5", "%d 번 게시물이 삭제되었습니다.".formatted(og.get().getId()), null);
     }
 
+
+
+    public List<Article> searchArticle(String brand, String keyword) {
+        return this.articleRepository.findByBrandAndKeyword(brand,keyword);
+    }
+
     public Long findRandomByBrand(String brand) {
         return this.articleRepository.findRandomArticleByBrand(brand);
     }
