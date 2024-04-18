@@ -34,6 +34,8 @@ public class APISecurityConfig {
                                 .requestMatchers("/api/*/ingredients").permitAll() //전체 재료 보기는 누구나 가능
                                 .requestMatchers("/api/*/ingredients/*").permitAll() // 재료 상세 보기는 누구나 가능
                                 .requestMatchers("/api/*/ingredients/type/*").permitAll() // 재료 상세 보기는 누구나 가능
+                                .requestMatchers("/api/*/reviews").permitAll()
+                                .requestMatchers("/api/*/reviews/*").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .csrf(
