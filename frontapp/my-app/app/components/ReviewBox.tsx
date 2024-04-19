@@ -1,16 +1,4 @@
-interface ReviewInterface {
-  id: string;
-  content: string;
-  createdDate: string;
-  modifiedDate: string;
-  author: AuthorInterface;
-}
-interface AuthorInterface {
-  createdDate: string;
-  modifiedDate: string;
-  username: string;
-  email: string;
-}
+import { ReviewInterface } from "../interface/review/ReviewInterfaces";
 interface ReviewBoxProps {
   review: ReviewInterface;
   formatDate: (dateString: string) => string;

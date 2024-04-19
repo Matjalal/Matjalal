@@ -1,19 +1,6 @@
-interface articleInterface {
-  id: number;
-  createdDate: string;
-  modifiedDate: string;
-  subject: string;
-  content: string;
-  brand: string;
-  ingredients: ingredientsInterface[];
-}
-interface ingredientsInterface {
-  id: string;
-  name: string;
-  type: string;
-}
+import { ArticleInterface } from "../interface/article/ArticleInterfaces";
 interface IngredientTypeBoxProps {
-  article: articleInterface;
+  article: ArticleInterface;
   ingredientType: string;
 }
 const IngredientTypeBox: React.FC<IngredientTypeBoxProps> = ({

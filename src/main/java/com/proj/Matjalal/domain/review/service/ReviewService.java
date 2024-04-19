@@ -27,6 +27,19 @@ public class ReviewService {
 
     @Transactional
     public RsData<Review> create(Member author, Article article, String content) {
+        if(author == null){
+            return RsData.of(
+                    "F-3M",
+                    "로그인해주세요",
+                    null
+            );
+        } if(article == null){
+            return RsData.of(
+                    "F-3A",
+                    "잘못된 접근입니다.",
+                    null
+            );
+        }
         Review review = Review.builder()
                 .author(author)
                 .content(content)

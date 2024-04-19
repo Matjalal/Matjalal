@@ -1,7 +1,7 @@
 "use client";
 import api from "@/app/utils/api";
 // import { useParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import IngredientCheckBox from "./IngredientCheckBox";
 import { useRouter } from "next/navigation";
 type memberInterface = {
@@ -59,7 +59,7 @@ export default function GongchaArticleForm() {
     setSelectedIngredients(updatedIngredients);
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -83,10 +83,10 @@ export default function GongchaArticleForm() {
     }
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    // const name: any = e.target.name;
-    // const value = e.target.value;
     setArticle({ ...article, [name]: value });
     console.log({ ...article, [name]: value });
   };

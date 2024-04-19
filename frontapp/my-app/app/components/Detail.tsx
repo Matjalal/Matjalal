@@ -5,34 +5,8 @@ import api from "@/app/utils/api";
 import IngredientTypeBox from "./IngredientTypeBox";
 import ReviewBox from "./ReviewBox";
 import ReviewForm from "./ReviewForm";
-interface articleInterface {
-  id: number;
-  createdDate: string;
-  modifiedDate: string;
-  subject: string;
-  content: string;
-  brand: string;
-  author: memberInterface;
-  ingredients: ingredientsInterface[];
-}
-interface ingredientsInterface {
-  id: string;
-  name: string;
-  type: string;
-}
-type memberInterface = {
-  createdDate: string;
-  modifiedDate: string;
-  username: string;
-  email: string;
-};
-interface ReviewInterface {
-  id: string;
-  content: string;
-  createdDate: string;
-  modifiedDate: string;
-  author: memberInterface;
-}
+import { ArticleInterface } from "../interface/article/ArticleInterfaces";
+import { ReviewInterface } from "../interface/review/ReviewInterfaces";
 
 interface DetailProps {
   color: string;
@@ -40,7 +14,7 @@ interface DetailProps {
 }
 
 const Detail: React.FC<DetailProps> = ({ color, types }) => {
-  const [article, setArticle] = useState<articleInterface>({
+  const [article, setArticle] = useState<ArticleInterface>({
     id: 0,
     createdDate: "",
     modifiedDate: "",
@@ -48,6 +22,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
     content: "",
     brand: "",
     author: {
+      id: "",
       createdDate: "",
       modifiedDate: "",
       username: "",
@@ -165,7 +140,11 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
         ))}
         {/* 비로그인 시 안보이게 만들기 */}
         <div className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
-          <ReviewForm formColor={color} />
+          <ReviewForm
+            formColor={color}
+            article={article}
+            fetchReviews={fetchReviews}
+          />
         </div>
       </div>
     </section>
