@@ -7,7 +7,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ formColor }) => {
       <div className="container px-5 py-3 mx-auto">
         <div className="lg:w-1/1 md:w-3/3 mx-auto">
           {/* 아래 div부터 form 태그로 묶기 */}
-          <div className="flex flex-wrap -m-2">
+          <form className="flex flex-wrap -m-2">
             <div className="p-2 w-full">
               <div className="relative">
                 <label
@@ -29,7 +29,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ formColor }) => {
                 등록
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </section>
