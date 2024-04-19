@@ -32,11 +32,13 @@ export default function RootLayout({
         ></link>
       </head>
       <body className={noto_sans.className}>
-        <Navbar />
-        <div className="min-h-screen">
-          <ReactQueryProviders>{children}</ReactQueryProviders>
-        </div>
-        <Footer />
+        <ReactQueryProviders>
+          <Navbar />
+          <div className="min-h-screen">
+            {children}
+          </div>
+          <Footer />
+        </ReactQueryProviders>
       </body>
     </html>
   );
