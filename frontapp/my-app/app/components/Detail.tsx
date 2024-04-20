@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, FC } from "react";
 import api from "@/app/utils/api";
 import IngredientTypeBox from "./IngredientTypeBox";
@@ -8,6 +8,7 @@ import ReviewForm from "./ReviewForm";
 import { ArticleInterface } from "../interface/article/ArticleInterfaces";
 import { ReviewInterface } from "../interface/review/ReviewInterfaces";
 import Link from "next/link";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface DetailProps {
   color: string;
@@ -15,6 +16,7 @@ interface DetailProps {
 }
 
 const Detail: React.FC<DetailProps> = ({ color, types }) => {
+  const router = useRouter();
   const [article, setArticle] = useState<ArticleInterface>({
     id: 0,
     createdDate: "",
@@ -65,6 +67,18 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
     const day = ("0" + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   };
+  const deleteArticle = async (id: number) => {
+    await api.delete(`/articles/${id}`)
+    router.push(`/${article.brand}/articles`)
+  }
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: deleteArticle,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['articleDTO'] })
+    },
+  })
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -108,19 +122,14 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
               >
                 <Link href={`/${article.brand}/${article.id}/patch`}>수정하기</Link>
               </button>
+
+            </div>
+            <div className="mt-2">
               <button
-                className={`rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-${color}-500 ml-4`}
+                className={`flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded`}
+                onClick={() => mutation.mutate(article.id)}
               >
-                <svg
-                  fill="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  className="w-5 h-5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
+                삭제하기
               </button>
             </div>
           </div>
