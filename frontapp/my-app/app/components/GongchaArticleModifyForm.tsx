@@ -7,7 +7,7 @@ import { MemberInterface } from "../interface/user/MemberInterfaces";
 import { IngredientInterface } from "../interface/ingredient/IngredientInterfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArticleInterface } from "../interface/article/ArticleInterfaces";
-function SubwayArticleModifyForm() {
+function GongChaArticleModifyForm() {
   const params = useParams();
   const fetchArticle = async () => {
     return await api
@@ -31,6 +31,10 @@ function SubwayArticleModifyForm() {
       setPostArticle({ subject: data.subject, content: data.content });
     }
   }, [data]);
+
+
+
+
 
   useEffect(() => {
     api
@@ -69,7 +73,6 @@ function SubwayArticleModifyForm() {
     setSelectedIngredients(updatedIngredients);
   };
 
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -80,24 +83,16 @@ function SubwayArticleModifyForm() {
         content: postArticle.content,
         ingredients: selectedIngredients
       });
+
       // api.patch가 완료된 후에 실행될 코드
       console.log("Article updated successfully!");
-      router.push(`/subway/${params.id}`); // 원하는 경로로 이동
+      router.push(`/gongcha/${params.id}`); // 원하는 경로로 이동
     } catch (error) {
       console.error("An error occurred while updating the article:", error);
       // 오류 처리 로직 추가 가능
     }
 
   };
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: handleSubmit,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['articleDTO'] })
-    },
-  })
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -108,7 +103,15 @@ function SubwayArticleModifyForm() {
   };
 
 
+  const queryClient = useQueryClient()
 
+  const mutation = useMutation({
+    mutationFn: handleSubmit,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['articleDTO'] })
+    },
+  })
   if (data) {
     return (
       <>
@@ -119,35 +122,28 @@ function SubwayArticleModifyForm() {
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
-                ingredientType="subwayMenu"
+                ingredientType="GongChaMenu"
                 maxChecked={1}
               // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
-                ingredientType="bread"
+                ingredientType="ice"
                 maxChecked={1}
               // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
-                ingredientType="cheese"
+                ingredientType="sweet"
                 maxChecked={1}
               // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
-                ingredientType="vegetable"
-                maxChecked={8}
-              // defaultCheckedIngredients={data.ingredients}
-              />
-              <IngredientCheckBox
-                onIngredientChange={onIngredientChange}
-                onIngredientRemove={onIngredientRemove}
-                ingredientType="sauce"
+                ingredientType="gongChaTopping"
                 maxChecked={3}
               // defaultCheckedIngredients={data.ingredients}
               />
@@ -199,4 +195,4 @@ function SubwayArticleModifyForm() {
 
 }
 
-export default SubwayArticleModifyForm;
+export default GongChaArticleModifyForm;
