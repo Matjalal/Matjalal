@@ -133,7 +133,7 @@ public class ApiV1ArticleController {
         private String subject;
         @NotBlank
         private String content;
-        @NotBlank
+
         private List<Ingredient> ingredients;
     }
 

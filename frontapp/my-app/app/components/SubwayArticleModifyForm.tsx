@@ -6,8 +6,17 @@ import { useParams, useRouter } from "next/navigation";
 import { MemberInterface } from "../interface/user/MemberInterfaces";
 import { IngredientInterface } from "../interface/ingredient/IngredientInterfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
+import { ArticleInterface } from "../interface/article/ArticleInterfaces";
 function SubwayArticleModifyForm() {
+  const fetchArticle = async () => {
+    return await api
+      .get(`/articles/${params.id}`)
+      .then((response) => response.data.data.articleDTO)
+  }
+  const { isLoading, error, data } = useQuery<ArticleInterface>({
+    queryKey: ['articleDTO'],
+    queryFn: fetchArticle,
+  })
   const router = useRouter();
   const [member, setMember] = useState<MemberInterface>();
   const [selectedIngredients, setSelectedIngredients] = useState<
@@ -15,13 +24,10 @@ function SubwayArticleModifyForm() {
   >([]);
   const params = useParams();
 
-  const [postArticle, setPostArticle] = useState({ subject: "", content: "" });
+  const [postArticle, setPostArticle] = useState({ subject: `${data?.subject}`, content: `${data?.content}` });
 
-  const fetchArticle = async () => {
-    return await api
-      .get(`/articles/${params.id}`)
-      .then((response) => response.data.data.articleDTO)
-  }
+  
+
 
 
   useEffect(() => {
@@ -90,10 +96,7 @@ function SubwayArticleModifyForm() {
     console.log({ ...postArticle, [name]: value });
   };
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['articleDTO'],
-    queryFn: fetchArticle,
-  })
+  
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
