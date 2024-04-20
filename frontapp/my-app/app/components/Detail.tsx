@@ -7,6 +7,7 @@ import ReviewBox from "./ReviewBox";
 import ReviewForm from "./ReviewForm";
 import { ArticleInterface } from "../interface/article/ArticleInterfaces";
 import { ReviewInterface } from "../interface/review/ReviewInterfaces";
+import Link from "next/link";
 
 interface DetailProps {
   color: string;
@@ -105,7 +106,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
               <button
                 className={`flex ml-auto text-white bg-${color}-500 border-0 py-2 px-6 focus:outline-none hover:bg-${color}-600 rounded`}
               >
-                Button
+                <Link href={`/${article.brand}/${article.id}/patch`}>수정하기</Link>
               </button>
               <button
                 className={`rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-${color}-500 ml-4`}

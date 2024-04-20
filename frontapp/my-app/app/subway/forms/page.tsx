@@ -14,6 +14,5 @@ export default function ArticleCreateForm() {
         <SubwayArticleForm />
       </div>
     </section>
-    
   )
 }

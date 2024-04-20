@@ -133,6 +133,8 @@ public class ApiV1ArticleController {
         private String subject;
         @NotBlank
         private String content;
+        @NotBlank
+        private List<Ingredient> ingredients;
     }
 
     //게시물 수정 완료 DTO
@@ -153,7 +155,7 @@ public class ApiV1ArticleController {
 
         // 수정할 회원의 권한 확인 필요
         RsData<Article> updateRs = this.articleService.update(og.get(), updateRequest.getSubject(),
-                updateRequest.getContent());
+                updateRequest.getContent(), updateRequest.getIngredients());
         return RsData.of(updateRs.getResultCode(), updateRs.getMsg(), new UpdateResponse(updateRs.getData()));
     }
 

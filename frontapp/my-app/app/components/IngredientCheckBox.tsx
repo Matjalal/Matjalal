@@ -1,21 +1,18 @@
 'use client'
 import { useState, useEffect } from "react";
 import api from "../utils/api";
-interface ingredientsInterface {
-    id: string,
-    name: string,
-    type: string
-}
+import { IngredientInterface } from "../interface/ingredient/IngredientInterfaces";
 interface IngredientCheckBoxProps {
-    onIngredientChange: (ingredients: ingredientsInterface[]) => void;
-    onIngredientRemove:(removedIngredient: ingredientsInterface) => void;
+    onIngredientChange: (ingredients: IngredientInterface[]) => void;
+    onIngredientRemove: (removedIngredient: IngredientInterface) => void;
     ingredientType: string
     maxChecked: number;
+    // defaultCheckedIngredients?: ingredientsInterface[];
 }
-const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientChange, onIngredientRemove , ingredientType, maxChecked }) => {
+const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientChange, onIngredientRemove, ingredientType, maxChecked }) => {
 
     // 불러올 재료 
-    const [ingredients, setIngredients] = useState<ingredientsInterface[]>([]);
+    const [ingredients, setIngredients] = useState<IngredientInterface[]>([]);
     useEffect(() => {
         api.get(`/ingredients/type/${ingredientType}`)
             .then(response => setIngredients(response.data.data.ingredients))
@@ -27,9 +24,9 @@ const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientCha
 
     const [checkedCount, setCheckedCount] = useState<number>(0); // 체크된 재료의 수
     // 체크된 재료
-    const [checkedIngredients, setCheckedIngredients] = useState<ingredientsInterface[]>([]);
+    const [checkedIngredients, setCheckedIngredients] = useState<IngredientInterface[]>([]);
 
-    const handleIngredientChange = (e: React.ChangeEvent<HTMLInputElement>, ingredient: ingredientsInterface) => {
+    const handleIngredientChange = (e: React.ChangeEvent<HTMLInputElement>, ingredient: IngredientInterface) => {
         // 현재 체크된 재료의 수
         const isChecked = e.target.checked;
         // 체크 가능 수를 초과하는지 확인
@@ -57,7 +54,7 @@ const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientCha
             setCheckedIngredients(prevCheckedIngredients => prevCheckedIngredients.filter(item => item !== ingredient));
             onIngredientRemove(ingredient)
         }
-        
+
     }
     useEffect(() => {
         onIngredientChange(checkedIngredients);
@@ -71,7 +68,7 @@ const IngredientCheckBox: React.FC<IngredientCheckBoxProps> = ({ onIngredientCha
             <label className="text-sm font-bold">최대 {maxChecked}개!</label>
             {ingredients.map(ingredient =>
                 <div key={ingredient.id.toString()}>
-                    <input type="checkbox" id={ingredient.name} name={ingredient.name} onChange={(e) => handleIngredientChange(e, ingredient)} className="w-4 h-4 mr-1" />
+                    <input type="checkbox" id={ingredient.name} name={ingredient.name} onChange={(e) => handleIngredientChange(e, ingredient)} className="w-4 h-4 mr-1"  />
                     <label htmlFor={ingredient.name}>{ingredient.name}</label>
                 </div>)}
         </div>
