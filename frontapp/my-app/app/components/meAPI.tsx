@@ -1,7 +1,3 @@
-export default function Me_API(){
-    return (
-        <>
-
-        </>
-    );
+export default function Me_API() {
+    return <></>;
 }
