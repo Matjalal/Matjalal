@@ -43,10 +43,8 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
       .get("/members/me")
       .then((response) => setMember(response.data.data.memberDTO))
       .catch((err) => {
-
         console.log(err);
       });
-
   }, []);
 
   const fetchArticle = () => {
@@ -55,16 +53,18 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
       .then((response) => setArticle(response.data.data.articleDTO))
       .catch((err) => {
         console.log(err);
-      });
+      }),
+      [];
   };
 
   const fetchReviews = () => {
     api
-      .get(`/reviews`)
+      .get(`/reviews/${params.id}/articles`)
       .then((response) => setReviews(response.data.data.reviews))
       .catch((err) => {
         console.log(err);
-      });
+      }),
+      [];
   };
 
   useEffect(() => {
@@ -81,17 +81,17 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
     return `${year}-${month}-${day}`;
   };
   const deleteArticle = async (id: number) => {
-    await api.delete(`/articles/${id}`)
-    router.push(`/${article.brand}/articles`)
-  }
-  const queryClient = useQueryClient()
+    await api.delete(`/articles/${id}`);
+    router.push(`/${article.brand}/articles`);
+  };
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: deleteArticle,
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['articleDTO'] })
+      queryClient.invalidateQueries({ queryKey: ["articleDTO"] });
     },
-  })
+  });
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -130,13 +130,15 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 ✅
               </span>
-              {member?.id === article.author.id && (<button
-                className={`flex ml-auto text-white bg-${color}-500 border-0 py-2 px-6 focus:outline-none hover:bg-${color}-600 rounded`}
-              >
-                <Link href={`/${article.brand}/${article.id}/patch`}>수정하기</Link>
-              </button>)}
-
-
+              {member?.id === article.author.id && (
+                <button
+                  className={`flex ml-auto text-white bg-${color}-500 border-0 py-2 px-6 focus:outline-none hover:bg-${color}-600 rounded`}
+                >
+                  <Link href={`/${article.brand}/${article.id}/patch`}>
+                    수정하기
+                  </Link>
+                </button>
+              )}
             </div>
             <div className="mt-2">
               {member?.id === article.author.id && (
@@ -161,7 +163,11 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
             key={review.id}
             className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10"
           >
-            <ReviewBox review={review} formatDate={formatDate} />
+            <ReviewBox
+              review={review}
+              formatDate={formatDate}
+              fetchReviews={fetchReviews}
+            />
           </div>
         ))}
         {/* 비로그인 시 안보이게 만들기 */}

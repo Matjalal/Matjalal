@@ -15,5 +15,5 @@ export default function GongchaModifyForm() {
         <GongChaArticleModifyForm />
       </div>
     </section>
-  )
+  );
 }

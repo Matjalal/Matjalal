@@ -1,4 +1,4 @@
-import SubwayArticleForm from "@/app/components/SubwayArticleForm"
+import SubwayArticleForm from "@/app/components/SubwayArticleForm";
 export default function ArticleCreateForm() {
   return (
     <section className="text-gray-600 body-font">
@@ -14,5 +14,5 @@ export default function ArticleCreateForm() {
         <SubwayArticleForm />
       </div>
     </section>
-  )
+  );
 }

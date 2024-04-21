@@ -12,18 +12,17 @@ function SubwayArticleModifyForm() {
   const fetchArticle = async () => {
     return await api
       .get(`/articles/${params.id}`)
-      .then((response) => response.data.data.articleDTO)
-  }
+      .then((response) => response.data.data.articleDTO);
+  };
   const { isLoading, error, data } = useQuery<ArticleInterface>({
-    queryKey: ['articleDTO', params.id],
+    queryKey: ["articleDTO", params.id],
     queryFn: fetchArticle,
-  })
+  });
   const router = useRouter();
   const [member, setMember] = useState<MemberInterface>();
   const [selectedIngredients, setSelectedIngredients] = useState<
     IngredientInterface[]
   >([]);
-
 
   const [postArticle, setPostArticle] = useState({ subject: ``, content: `` });
   useEffect(() => {
@@ -42,7 +41,7 @@ function SubwayArticleModifyForm() {
   }, []);
 
   const onIngredientChange = (checkedIngredients: IngredientInterface[]) => {
-    console.log(selectedIngredients)
+    console.log(selectedIngredients);
     const isDuplicated = (ingredient: IngredientInterface) => {
       return selectedIngredients.some((item) => item === ingredient);
     };
@@ -58,7 +57,6 @@ function SubwayArticleModifyForm() {
       ...newIngredients,
     ]);
     // Remove previously selected ingredients of the same type
-
   };
 
   const onIngredientRemove = (removedIngredient: IngredientInterface) => {
@@ -69,7 +67,6 @@ function SubwayArticleModifyForm() {
     setSelectedIngredients(updatedIngredients);
   };
 
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -78,7 +75,7 @@ function SubwayArticleModifyForm() {
       await api.patch(`/articles/${params.id}`, {
         subject: postArticle.subject,
         content: postArticle.content,
-        ingredients: selectedIngredients
+        ingredients: selectedIngredients,
       });
       // api.patch가 완료된 후에 실행될 코드
       console.log("Article updated successfully!");
@@ -87,17 +84,16 @@ function SubwayArticleModifyForm() {
       console.error("An error occurred while updating the article:", error);
       // 오류 처리 로직 추가 가능
     }
-
   };
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: handleSubmit,
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['articleDTO'] })
+      queryClient.invalidateQueries({ queryKey: ["articleDTO"] });
     },
-  })
+  });
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -106,8 +102,6 @@ function SubwayArticleModifyForm() {
     setPostArticle({ ...postArticle, [name]: value });
     console.log({ ...postArticle, [name]: value });
   };
-
-
 
   if (data) {
     return (
@@ -121,35 +115,35 @@ function SubwayArticleModifyForm() {
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="subwayMenu"
                 maxChecked={1}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="bread"
                 maxChecked={1}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="cheese"
                 maxChecked={1}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="vegetable"
                 maxChecked={8}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="sauce"
                 maxChecked={3}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
             </div>
             {/* 제목 */}
@@ -196,7 +190,6 @@ function SubwayArticleModifyForm() {
       </>
     );
   }
-
 }
 
 export default SubwayArticleModifyForm;

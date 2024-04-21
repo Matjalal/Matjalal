@@ -12,18 +12,17 @@ function GongChaArticleModifyForm() {
   const fetchArticle = async () => {
     return await api
       .get(`/articles/${params.id}`)
-      .then((response) => response.data.data.articleDTO)
-  }
+      .then((response) => response.data.data.articleDTO);
+  };
   const { isLoading, error, data } = useQuery<ArticleInterface>({
-    queryKey: ['articleDTO', params.id],
+    queryKey: ["articleDTO", params.id],
     queryFn: fetchArticle,
-  })
+  });
   const router = useRouter();
   const [member, setMember] = useState<MemberInterface>();
   const [selectedIngredients, setSelectedIngredients] = useState<
     IngredientInterface[]
   >([]);
-
 
   const [postArticle, setPostArticle] = useState({ subject: ``, content: `` });
   useEffect(() => {
@@ -31,10 +30,6 @@ function GongChaArticleModifyForm() {
       setPostArticle({ subject: data.subject, content: data.content });
     }
   }, [data]);
-
-
-
-
 
   useEffect(() => {
     api
@@ -46,7 +41,7 @@ function GongChaArticleModifyForm() {
   }, []);
 
   const onIngredientChange = (checkedIngredients: IngredientInterface[]) => {
-    console.log(selectedIngredients)
+    console.log(selectedIngredients);
     const isDuplicated = (ingredient: IngredientInterface) => {
       return selectedIngredients.some((item) => item === ingredient);
     };
@@ -62,7 +57,6 @@ function GongChaArticleModifyForm() {
       ...newIngredients,
     ]);
     // Remove previously selected ingredients of the same type
-
   };
 
   const onIngredientRemove = (removedIngredient: IngredientInterface) => {
@@ -81,7 +75,7 @@ function GongChaArticleModifyForm() {
       await api.patch(`/articles/${params.id}`, {
         subject: postArticle.subject,
         content: postArticle.content,
-        ingredients: selectedIngredients
+        ingredients: selectedIngredients,
       });
 
       // api.patch가 완료된 후에 실행될 코드
@@ -91,7 +85,6 @@ function GongChaArticleModifyForm() {
       console.error("An error occurred while updating the article:", error);
       // 오류 처리 로직 추가 가능
     }
-
   };
 
   const handleChange = (e: any) => {
@@ -102,16 +95,15 @@ function GongChaArticleModifyForm() {
     console.log({ ...postArticle, [name]: value });
   };
 
-
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: handleSubmit,
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['articleDTO'] })
+      queryClient.invalidateQueries({ queryKey: ["articleDTO"] });
     },
-  })
+  });
   if (data) {
     return (
       <>
@@ -124,28 +116,28 @@ function GongChaArticleModifyForm() {
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="GongChaMenu"
                 maxChecked={1}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="ice"
                 maxChecked={1}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="sweet"
                 maxChecked={1}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
               <IngredientCheckBox
                 onIngredientChange={onIngredientChange}
                 onIngredientRemove={onIngredientRemove}
                 ingredientType="gongChaTopping"
                 maxChecked={3}
-              // defaultCheckedIngredients={data.ingredients}
+                // defaultCheckedIngredients={data.ingredients}
               />
             </div>
             {/* 제목 */}
@@ -192,7 +184,6 @@ function GongChaArticleModifyForm() {
       </>
     );
   }
-
 }
 
 export default GongChaArticleModifyForm;

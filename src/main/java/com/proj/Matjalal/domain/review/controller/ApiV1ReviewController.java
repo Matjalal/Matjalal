@@ -43,6 +43,23 @@ public class ApiV1ReviewController {
 
         return RsData.of("S-1", "성공", new ReviewsResponse(reviewDTOS));
     }
+    @Getter
+    @AllArgsConstructor
+    public static class ReviewsByArticleResponse {
+        private final List<ReviewDTO> reviews;
+    }
+
+    //다건 조회
+    @GetMapping("/{articleId}/articles")
+    public RsData<ReviewsResponse> getReviewsByArticle(@PathVariable(value = "articleId") Long articleId) {
+        List<Review> reviews = this.reviewService.findAllByArticleId(articleId);
+        List<ReviewDTO> reviewDTOS = new ArrayList<>();
+        for (Review review : reviews) {
+            reviewDTOS.add(new ReviewDTO(review));
+        }
+
+        return RsData.of("S-5", "성공", new ReviewsResponse(reviewDTOS));
+    }
 
 
     //단건 조회 DTO
@@ -111,7 +128,7 @@ public class ApiV1ReviewController {
 
     //단건 게시물 수정
     @PatchMapping("/{id}")
-    public RsData<UpdateResponse> updatereview(@PathVariable(value = "id") Long id,
+    public RsData<UpdateResponse> updateReview(@PathVariable(value = "id") Long id,
                                                @Valid @RequestBody UpdateRequest updateRequest) {
         Optional<Review> optionalReview = this.reviewService.getReview(id);
         if (optionalReview.isEmpty()) {
