@@ -9,6 +9,7 @@ import { ArticleInterface } from "../interface/article/ArticleInterfaces";
 import { ReviewInterface } from "../interface/review/ReviewInterfaces";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MemberInterface } from "../interface/user/MemberInterfaces";
 
 interface DetailProps {
   color: string;
@@ -35,6 +36,18 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
   });
   const params = useParams();
   const [reviews, setReviews] = useState<ReviewInterface[]>([]);
+  const [member, setMember] = useState<MemberInterface>();
+
+  useEffect(() => {
+    api
+      .get("/members/me")
+      .then((response) => setMember(response.data.data.memberDTO))
+      .catch((err) => {
+
+        console.log(err);
+      });
+
+  }, []);
 
   const fetchArticle = () => {
     api
@@ -102,9 +115,9 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
                 📆 {formatDate(article.createdDate)}
               </a>
               {/* 멤버 추가시 주석 해제 */}
-              {/* <a className="flex-grow border-b-2 border-green-500  py-2 text-lg px-1">
-                                👩‍🍳 {article.author.username}
-                            </a> */}
+              <a className="flex-grow border-b-2 border-green-500  py-2 text-lg px-1">
+                👩‍🍳 {article.author.username}
+              </a>
             </div>
             <p className="leading-relaxed mb-4">{article.content}</p>
             {/* 반복시키기 */}
@@ -117,20 +130,23 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 ✅
               </span>
-              <button
+              {member?.id === article.author.id && (<button
                 className={`flex ml-auto text-white bg-${color}-500 border-0 py-2 px-6 focus:outline-none hover:bg-${color}-600 rounded`}
               >
                 <Link href={`/${article.brand}/${article.id}/patch`}>수정하기</Link>
-              </button>
+              </button>)}
+
 
             </div>
             <div className="mt-2">
-              <button
-                className={`flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded`}
-                onClick={() => mutation.mutate(article.id)}
-              >
-                삭제하기
-              </button>
+              {member?.id === article.author.id && (
+                <button
+                  className={`flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded`}
+                  onClick={() => mutation.mutate(article.id)}
+                >
+                  삭제하기
+                </button>
+              )}
             </div>
           </div>
           {/* 추후 이미지 추가 시 주석 */}
