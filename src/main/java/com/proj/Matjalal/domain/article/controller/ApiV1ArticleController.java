@@ -117,9 +117,9 @@ public class ApiV1ArticleController {
 
     //단건 게시물 생성
     @PostMapping("")
-    public RsData<CreateResponse> createArticle(@RequestBody CreateRequest CreateRequest) {
-        RsData<Article> createRs = this.articleService.create(null, CreateRequest.getSubject(),
-                CreateRequest.getContent(), CreateRequest.getIngredients(), CreateRequest.getBrand());
+    public RsData<CreateResponse> createArticle(@RequestBody CreateRequest createRequest) {
+        RsData<Article> createRs = this.articleService.create(createRequest.author, createRequest.getSubject(),
+                createRequest.getContent(), createRequest.getIngredients(), createRequest.getBrand());
         if (createRs.isFail()) {
             return (RsData) createRs;
         }
