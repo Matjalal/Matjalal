@@ -5,6 +5,8 @@ import com.proj.Matjalal.domain.article.entity.Article;
 import com.proj.Matjalal.domain.article.service.ArticleService;
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
 import com.proj.Matjalal.domain.member.entity.Member;
+import com.proj.Matjalal.domain.review.entity.Review;
+import com.proj.Matjalal.domain.review.service.ReviewService;
 import com.proj.Matjalal.global.RsData.RsData;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +25,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1/articles")
 public class ApiV1ArticleController {
     private final ArticleService articleService;
+    private final ReviewService reviewService;
 
 
     //다건 조회 DTO
@@ -169,7 +172,10 @@ public class ApiV1ArticleController {
     //단건 게시물 삭제
     @DeleteMapping("/{id}")
     public RsData<DeleteResponse> deleteArticle(@PathVariable(value = "id") Long id) {
-
+        List<Review> reviews = this.reviewService.findAllByArticleId(id);
+        for(Review review : reviews){
+            this.reviewService.delete(review.getId());
+        }
         RsData<Article> deleteRs = this.articleService.delete(id);
 
         return RsData.of(deleteRs.getResultCode(), deleteRs.getMsg(), new DeleteResponse(deleteRs.getData()));

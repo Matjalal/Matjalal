@@ -132,7 +132,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
               </span>
               {member?.id === article.author.id && (
                 <button
-                  className={`flex ml-auto text-white bg-${color}-500 border-0 py-2 px-6 focus:outline-none hover:bg-${color}-600 rounded`}
+                  className={`flex ml-auto text-white bg-blue-500 border-0 py-2 px-6 focus:outline-none hover:bg-blue-600 rounded`}
                 >
                   <Link href={`/${article.brand}/${article.id}/patch`}>
                     수정하기
