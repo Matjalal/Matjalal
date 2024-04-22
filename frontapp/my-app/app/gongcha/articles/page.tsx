@@ -24,7 +24,7 @@ export default function GongchaArticles() {
                         </h1>
                         <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">공차 꿀조합을 찾아봐요</p>
                     </div>
-                    <div className="flex flex-wrap -m-4">
+                    <div>
                         <ArticleBox brand="gongcha" />
                     </div>
                     {member && (
