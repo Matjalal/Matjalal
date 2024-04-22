@@ -34,5 +34,12 @@ public class Article extends BaseEntity {
     @JsonIgnore
     private List<Review> reviews;
 
+    private String imagePath; // 이미지 파일의 경로를 저장할 변수
+
+    // setImagePath 메서드 추가
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
 
 }

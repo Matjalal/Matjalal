@@ -6,6 +6,8 @@ import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.member.service.MemberService;
 import com.proj.Matjalal.global.RsData.RsData;
 import com.proj.Matjalal.global.rq.Rq;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
+@Tag(name = "회원", description = "회원 관련 API")
 public class ApiV1MemberController {
     private final MemberService memberService;
     private final Rq rq;
@@ -35,6 +38,7 @@ public class ApiV1MemberController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "회원 로그인", description = "회원 로그인: 아이디(username)와 비밀번호(password) 필요")
     public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody) {
         RsData<MemberService.AuthAndMakeTokensResponseBody> rsData = this.memberService.authAndMakeToken(loginRequestBody.getUsername(), loginRequestBody.getPassword());
 
@@ -55,6 +59,7 @@ public class ApiV1MemberController {
     }
 
     @GetMapping("/me")
+    @Operation(summary = "현재 로그인한 회원 조회", description = "현재 로그인한 회원 정보 불러오기")
     public RsData<MeResponse> me() {
         Member member = rq.getMember();
 
@@ -66,6 +71,7 @@ public class ApiV1MemberController {
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "로그인 상태에서 요청 시 회원 상태에서 비회원 상태로 전환")
     public RsData<Void> logout() {
         rq.removeCrossDomainCookie("accessToken");
         rq.removeCrossDomainCookie("refreshToken");

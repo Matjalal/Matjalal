@@ -27,11 +27,11 @@ public class NotProd {
             Member admin = memberService.join("admin", password, "admin@test.com");
 
             // 작성자 회원 추가
-            RsData<Article> articleRsData = articleService.create(user1, "맛있는 샌드위치", "샌드위치 맛있어요", null, "subway");
-            articleService.create(user1, "피클만 넣은 샌드위치", "피클 좋아", null, "subway");
-            articleService.create(user2, "버블3배 밀크티", "버블 좋아", null, "gongcha");
-            articleService.create(user2, "치즈폼 타로밀크티", "타로 맜있어", null, "gongcha");
-            articleService.create(admin, "공차슈페너에 버블 추가", "맛있어용b", null, "gongcha");
+            RsData<Article> articleRsData = articleService.create(user1, "맛있는 샌드위치", "샌드위치 맛있어요", null, "subway", null);
+            articleService.create(user1, "피클만 넣은 샌드위치", "피클 좋아", null, "subway", null);
+            articleService.create(user2, "버블3배 밀크티", "버블 좋아", null, "gongcha", null);
+            articleService.create(user2, "치즈폼 타로밀크티", "타로 맜있어", null, "gongcha", null);
+            articleService.create(admin, "공차슈페너에 버블 추가", "맛있어용b", null, "gongcha", null);
 
             //재료 생성
             // Subway

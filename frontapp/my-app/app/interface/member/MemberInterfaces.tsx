@@ -1,7 +1,7 @@
 export type MemberInterface = {
-  id: string;
-  createdDate: string;
-  modifiedDate: string;
-  username: string;
-  email: string;
+    id: number;
+    createdDate: string;
+    modifiedDate: string;
+    username: string;
+    email: string;
 };

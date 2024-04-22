@@ -28,13 +28,14 @@ public class ArticleService {
     }
 
     @Transactional
-    public RsData<Article> create(Member author, String subject, String content, List<Ingredient> ingredients, String brand) {
+    public RsData<Article> create(Member author, String subject, String content, List<Ingredient> ingredients, String brand, String filepathString) {
         Article article = Article.builder()
                 .author(author)
                 .subject(subject)
                 .content(content)
                 .ingredients(ingredients)
                 .brand(brand)
+                .imagePath(filepathString)
                 .build();
         this.articleRepository.save(article);
 
