@@ -3,7 +3,7 @@ import api from "../utils/api";
 import { useState, useEffect } from "react";
 import IngredientCheckBox from "./IngredientCheckBox";
 import { useParams, useRouter } from "next/navigation";
-import { MemberInterface } from "../interface/user/MemberInterfaces";
+import { MemberInterface } from "../interface/member/MemberInterfaces";
 import { IngredientInterface } from "../interface/ingredient/IngredientInterfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArticleInterface } from "../interface/article/ArticleInterfaces";

@@ -1,14 +1,19 @@
-import { useState } from 'react';
-import api from '../utils/api';
-export default function SearchBox({ brand, setArticles }) {
-    const [keyword, setKeyword] = useState('');
+import { ChangeEvent, useState } from "react";
+import api from "../utils/api";
+interface SearchBoxProps {
+    brand: string;
+    setArticles: ([]) => void;
+}
 
-  const changeSearchWordHandler = (event) => {
-    event.preventDefault();
+const SearchBox: React.FC<SearchBoxProps> = ({ brand, setArticles }) => {
+    const [keyword, setKeyword] = useState("");
 
-    setKeyword(event.target.value);
-    console.log(event.target.value);
-  };
+    const changeSearchWordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
+
+        setKeyword(event.target.value);
+        console.log(event.target.value);
+    };
 
     const searchSubmit = async () => {
         api.get(`/articles/search?brand=${brand}&keyword=${keyword}`).then((response) =>
@@ -34,4 +39,6 @@ export default function SearchBox({ brand, setArticles }) {
             </div>
         </>
     );
-}
+};
+
+export default SearchBox;
