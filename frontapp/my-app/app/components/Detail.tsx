@@ -8,8 +8,9 @@ import ReviewForm from "./ReviewForm";
 import { ArticleInterface } from "../interface/article/ArticleInterfaces";
 import { ReviewInterface } from "../interface/review/ReviewInterfaces";
 import Link from "next/link";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MemberInterface } from "../interface/member/MemberInterfaces";
+import { ImageDataInterface } from "../interface/imageData/ImageDataInterfaces";
 
 interface DetailProps {
     color: string;
@@ -37,6 +38,13 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
     const params = useParams();
     const [reviews, setReviews] = useState<ReviewInterface[]>([]);
     const [member, setMember] = useState<MemberInterface>();
+    const fetchImage = async () => {
+        return await api.get(`/image-data/${params.id}/articles`).then((response) => response.data.data.imageData);
+    };
+    const { isLoading, error, data } = useQuery<ImageDataInterface>({
+        queryKey: [`imageData_articleId:${article.id}`],
+        queryFn: fetchImage,
+    });
 
     useEffect(() => {
         api.get("/members/me")
@@ -142,7 +150,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
                     <img
                         alt="article"
                         className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-                        src="https://dummyimage.com/400x400"
+                        src={`\\${data?.filePath}`}
                     />
                 </div>
                 {reviews.map((review) => (

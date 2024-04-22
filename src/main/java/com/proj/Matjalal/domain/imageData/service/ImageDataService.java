@@ -15,14 +15,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ImageDataService {
     private final ImageDataRepository imageDataRepository;
-    private final String FOLDER_PATH = "C:\\file_upload";
+    private final String FOLDER_PATH = "C:\\file_upload\\article";
 
-    public ImageData findByArticle(Article article) {
-        Optional<ImageData> optionalImageData = this.imageDataRepository.findByArticle(article);
-        if(optionalImageData.isEmpty()){
-            return null;
-        }
-        return optionalImageData.get();
+    public Optional<ImageData> findByArticle(Article article) {
+        return  this.imageDataRepository.findByArticle(article);
+
+
     }
 
     public String uploadImageToFileSystem(MultipartFile file) throws IOException {
@@ -65,4 +63,5 @@ public class ImageDataService {
 
         return null;
     }
+
 }
