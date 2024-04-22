@@ -12,8 +12,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MemberInterface } from "../interface/user/MemberInterfaces";
 
 interface DetailProps {
-  color: string;
-  types: string[];
+    color: string;
+    types: string[];
 }
 
 const Detail: React.FC<DetailProps> = ({ color, types }) => {
@@ -67,10 +67,10 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
       [];
   };
 
-  useEffect(() => {
-    fetchArticle();
-    fetchReviews();
-  }, []);
+    useEffect(() => {
+        fetchArticle();
+        fetchReviews();
+    }, []);
 
   // YY:MM:DD 형식으로 날짜를 표시하기 위한 함수
   const formatDate = (dateString: string): string => {
