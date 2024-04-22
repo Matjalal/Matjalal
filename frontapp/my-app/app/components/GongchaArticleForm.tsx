@@ -73,25 +73,26 @@ export default function GongchaArticleForm() {
 
         try {
             const formData = new FormData(); // FormData 객체 생성
-            const selectedIngredientIds = selectedIngredients.map((ingredient) => ingredient.id).join(",");
+
             // 폼 데이터에 필드 추가
+
+            await api.post("/articles", {
+                subject: article.subject,
+                content: article.content,
+                author: member,
+                ingredients: selectedIngredients,
+                brand: "gongcha",
+            });
             formData.append("subject", article.subject);
             formData.append("content", article.content);
-            formData.append("authorId", data.id);
-            formData.append("brand", "gongcha");
-            formData.append("ingredients", selectedIngredientIds);
             if (image) {
                 formData.append("image", image);
             }
-
-            await fetch("http://localhost:8090/api/v1/articles", {
+            console.log("Gongcha Article created successfully!");
+            await fetch("http://localhost:8090/api/v1/image-data/articles", {
                 method: "POST",
                 body: formData,
-                headers: {
-                    "Content-Type": "multipart/form-data", // 멀티파트 폼 데이터로 전송
-                },
             });
-            console.log("Gongcha Article created successfully!");
             router.push("/gongcha/articles");
 
             // 추가적인 로직이 필요한 경우 여기에 작성

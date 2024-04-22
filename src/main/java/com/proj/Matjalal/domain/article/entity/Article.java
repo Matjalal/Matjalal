@@ -1,6 +1,7 @@
 package com.proj.Matjalal.domain.article.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.proj.Matjalal.domain.imageData.entity.ImageData;
 import com.proj.Matjalal.domain.ingredient.entity.Ingredient;
 import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.review.entity.Review;
@@ -33,13 +34,6 @@ public class Article extends BaseEntity {
     @OneToMany
     @JsonIgnore
     private List<Review> reviews;
-
-    private String imagePath; // 이미지 파일의 경로를 저장할 변수
-
-    // setImagePath 메서드 추가
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
 
 
 }

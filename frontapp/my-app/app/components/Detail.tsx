@@ -26,7 +26,7 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
         content: "",
         brand: "",
         author: {
-            id: "",
+            id: 0,
             createdDate: "",
             modifiedDate: "",
             username: "",

@@ -114,7 +114,19 @@ public class ApiV1ArticleController {
     }
 
     //게시물 생성 요청 DTO
-
+    @Data
+    public static class CreateRequest {
+        @NotBlank
+        private String subject;
+        @NotBlank
+        private String content;
+        @NotBlank
+        private List<Ingredient> ingredients;
+        @NotBlank
+        private Member author;
+        @NotBlank
+        private String brand;
+    }
 
     //게시물 생성 완료 응답 DTO
     @Getter
@@ -126,43 +138,9 @@ public class ApiV1ArticleController {
     //단건 게시물 생성
     @PostMapping("")
     @Operation(summary = "게시글 등록", description = "게시글 등록: 제목, 내용, 재료리스트, 회원, 브랜드 필요. ")
-    public RsData<CreateResponse> createArticle(@RequestParam("subject") String subject,
-                                                @RequestParam("content") String content,
-                                                @RequestParam("authorId") Long authorId,
-                                                @RequestParam("brand") String brand,
-                                                @RequestParam("ingredients") List<Ingredient> ingredients,
-                                                @RequestParam("image") MultipartFile image
-                                                ) {
-        String filepathString = "";
-        try {
-            String uploadDir = "upload.path"; // application.properties에서 경로 설정
-            Path uploadPath = Paths.get(uploadDir);
-
-            // 디렉토리가 존재하지 않으면 생성
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            // 파일 저장
-            String filename = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-            Path filepath = uploadPath.resolve(filename);
-            Files.copy(image.getInputStream(), filepath);
-
-            // 이미지 저장 후 파일 경로를 createRequest에 설정
-            filepathString = (filepath.toString());
-            // 파일 저장 후 추가 작업 수행
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Optional<Member> optionalMember =  this.memberService.findById(authorId);
-        if(optionalMember.isEmpty()){
-            return null;
-        }
-
-        RsData<Article> createRs = this.articleService.create(optionalMember.get(), subject,
-                content, ingredients, brand, filepathString);
+    public RsData<CreateResponse> createArticle(@RequestBody CreateRequest createRequest) {
+        RsData<Article> createRs = this.articleService.create(createRequest.getAuthor(), createRequest.getSubject(),
+                createRequest.content, createRequest.getIngredients(), createRequest.brand);
         if (createRs.isFail()) {
             return (RsData) createRs;
         }
