@@ -56,7 +56,6 @@ function GongChaArticleModifyForm() {
       ...prevIngredients,
       ...newIngredients,
     ]);
-    // Remove previously selected ingredients of the same type
   };
 
   const onIngredientRemove = (removedIngredient: IngredientInterface) => {

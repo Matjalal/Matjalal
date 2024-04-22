@@ -8,6 +8,12 @@ import com.proj.Matjalal.domain.member.entity.Member;
 import com.proj.Matjalal.domain.review.entity.Review;
 import com.proj.Matjalal.domain.review.service.ReviewService;
 import com.proj.Matjalal.global.RsData.RsData;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,6 +29,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/articles")
+@Tag(name = "게시글", description = "게시글 관련 API")
 public class ApiV1ArticleController {
     private final ArticleService articleService;
     private final ReviewService reviewService;
@@ -37,6 +44,7 @@ public class ApiV1ArticleController {
 
     //다건 조회
     @GetMapping("")
+    @Operation(summary = "게시글 다건 조회", description = "서브웨이, 공차 게시글 전부 조회")
     public RsData<ArticlesResponse> getArticles() {
         List<Article> articles = this.articleService.getAll();
         List<ArticleDTO> articleDTOS = new ArrayList<>();
@@ -57,7 +65,8 @@ public class ApiV1ArticleController {
 
     //브랜드별 게시물 다건 조회
     @GetMapping("/{brand}/brands")
-    public RsData<BrandArticlesResponse> getArticlesByBrand(@PathVariable(value = "brand") String brand) {
+    @Operation(summary = "브랜드별 게시글 다건 조회", description = "게시글 브랜드별 리스트 조회: subway => 서브웨이, gongcha => 공차.")
+    public RsData<BrandArticlesResponse> getArticlesByBrand(@Parameter(description = "다건 조회할 게시글의 브랜드", example = "subway") @PathVariable(value = "brand") String brand) {
         List<Article> articles = this.articleService.getAllByBrand(brand);
         List<ArticleDTO> articleDTOS = new ArrayList<>();
         for (Article article : articles) {
@@ -69,7 +78,8 @@ public class ApiV1ArticleController {
 
     //브랜드별 랜덤 게시물 단건 조회
     @GetMapping("/{brand}/random")
-    public RsData<Long> getRandomArticleByBrand(@PathVariable(value = "brand") String brand) {
+    @Operation(summary = "브랜드별 게시글 단건 조회", description = "게시글 브랜드별 단건 랜덤 조회: subway => 서브웨이 게시글 중 하나 랜덤 조회, gongcha => 공차 게시글 중 하나 랜덤 조회. ")
+    public RsData<Long> getRandomArticleByBrand(@Parameter(description = "단건 랜덤 조회할 게시글의 브랜드", example = "subway") @PathVariable(value = "brand") String brand) {
         Long id = this.articleService.findRandomByBrand(brand);
 
         return RsData.of("S-7", "%s 랜덤 추출 성공".formatted(brand), id);
@@ -84,7 +94,8 @@ public class ApiV1ArticleController {
 
     //단건 조회
     @GetMapping("/{id}")
-    public RsData<ArticleResponse> getArticle(@PathVariable(value = "id") Long id) {
+    @Operation(summary = "게시글 단건 조회", description = "게시글 단건 조회: {id} 게시글 하나 조회. ")
+    public RsData<ArticleResponse> getArticle(@Parameter(description = "조회할 게시글의 아이디", example = "article_id") @PathVariable(value = "id") Long id) {
         return this.articleService.getArticle(id).map(article -> RsData.of(
                 "S-2",
                 "성공",
@@ -120,6 +131,7 @@ public class ApiV1ArticleController {
 
     //단건 게시물 생성
     @PostMapping("")
+    @Operation(summary = "게시글 등록", description = "게시글 등록: 제목, 내용, 재료리스트, 회원, 브랜드 필요. ")
     public RsData<CreateResponse> createArticle(@RequestBody CreateRequest createRequest) {
         RsData<Article> createRs = this.articleService.create(createRequest.author, createRequest.getSubject(),
                 createRequest.getContent(), createRequest.getIngredients(), createRequest.getBrand());
@@ -149,7 +161,8 @@ public class ApiV1ArticleController {
 
     //단건 게시물 수정
     @PatchMapping("/{id}")
-    public RsData<UpdateResponse> updateArticle(@PathVariable(value = "id") Long id,
+    @Operation(summary = "게시글 수정", description = "게시글 수정: 제목, 내용, 재료리스트. ")
+    public RsData<UpdateResponse> updateArticle(@Parameter(description = "수정할 게시글의 아이디", example = "article_id") @PathVariable(value = "id") Long id,
                                                 @Valid @RequestBody UpdateRequest updateRequest) {
         Optional<Article> og = this.articleService.getArticle(id);
         if (og.isEmpty()) {
@@ -171,9 +184,10 @@ public class ApiV1ArticleController {
 
     //단건 게시물 삭제
     @DeleteMapping("/{id}")
-    public RsData<DeleteResponse> deleteArticle(@PathVariable(value = "id") Long id) {
+    @Operation(summary = "게시글 삭제", description = "{id} 게시글 삭제")
+    public RsData<DeleteResponse> deleteArticle(@Parameter(description = "삭제할 게시글의 아이디", example = "article_id") @PathVariable(value = "id") Long id) {
         List<Review> reviews = this.reviewService.findAllByArticleId(id);
-        for(Review review : reviews){
+        for (Review review : reviews) {
             this.reviewService.delete(review.getId());
         }
         RsData<Article> deleteRs = this.articleService.delete(id);
@@ -197,9 +211,10 @@ public class ApiV1ArticleController {
     }
 
     @GetMapping("/search")
-    public RsData<ArticleSearchResponse> searchArticleByKeyword(@RequestParam(value = "brand")String brand,
-                                                                @RequestParam(value = "keyword")String keyword) {
-        List<Article> articleList = this.articleService.searchArticle(brand,keyword);
+    @Operation(summary = "게시글 검색 다건 조회", description = "키워드에 맞는 게시글 검색하여 해당 조건에 맞는 게시글들 조회.")
+    public RsData<ArticleSearchResponse> searchArticleByKeyword(@Parameter(description = "검색할 게시글의 브랜드", example = "subway") @RequestParam(value = "brand") String brand,
+                                                                @Parameter(description = "검색할 게시글의 키워드", example = "keyword") @RequestParam(value = "keyword") String keyword) {
+        List<Article> articleList = this.articleService.searchArticle(brand, keyword);
 
         return RsData.of("S-6", "성공", new ArticleSearchResponse(articleList));
     }
