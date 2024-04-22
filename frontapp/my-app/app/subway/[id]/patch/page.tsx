@@ -12,7 +12,7 @@ const SubwayPatchForm = () => {
                         원하는 메뉴, 빵, 치즈, 야채, 소스를 골라 나만의 꿀조합을 공유하세요!
                     </p>
                 </div>
-                <SubwayArticleForm />
+                <SubwayArticleModifyForm />
             </div>
         </section>
     );
