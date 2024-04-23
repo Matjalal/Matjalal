@@ -94,6 +94,7 @@ function SubwayArticleModifyForm() {
         }
     };
 
+
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         // const name: any = e.target.name;
@@ -111,7 +112,7 @@ function SubwayArticleModifyForm() {
             queryClient.invalidateQueries({ queryKey: ["articleDTO"] });
         },
     });
-
+if (data) {
     return (
         <>
             <form onSubmit={handleSubmit}>
