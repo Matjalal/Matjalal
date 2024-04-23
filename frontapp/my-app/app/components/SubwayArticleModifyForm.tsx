@@ -94,7 +94,6 @@ function SubwayArticleModifyForm() {
         }
     };
 
-
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         // const name: any = e.target.name;
@@ -112,90 +111,90 @@ function SubwayArticleModifyForm() {
             queryClient.invalidateQueries({ queryKey: ["articleDTO"] });
         },
     });
-if (data) {
-    return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <div className="flex flex-wrap lg:w-2/3 w-full  flex-col mx-auto px-8 sm:space-x-4  space-y-4 sm:px-0 ">
-                    {/* 재료 체크박스 */}
-                    <div className="flex space-x-4 pl-4">
-                        <IngredientCheckBox
-                            onIngredientChange={onIngredientChange}
-                            onIngredientRemove={onIngredientRemove}
-                            ingredientType="subwayMenu"
-                            maxChecked={1}
-                        />
-                        <IngredientCheckBox
-                            onIngredientChange={onIngredientChange}
-                            onIngredientRemove={onIngredientRemove}
-                            ingredientType="bread"
-                            maxChecked={1}
-                        />
-                        <IngredientCheckBox
-                            onIngredientChange={onIngredientChange}
-                            onIngredientRemove={onIngredientRemove}
-                            ingredientType="cheese"
-                            maxChecked={1}
-                        />
-                        <IngredientCheckBox
-                            onIngredientChange={onIngredientChange}
-                            onIngredientRemove={onIngredientRemove}
-                            ingredientType="vegetable"
-                            maxChecked={8}
-                        />
-                        <IngredientCheckBox
-                            onIngredientChange={onIngredientChange}
-                            onIngredientRemove={onIngredientRemove}
-                            ingredientType="sauce"
-                            maxChecked={3}
-                        />
-                    </div>
-                    {/* 제목 */}
-                    <div className="relative flex-grow w-full">
-                        <label htmlFor="subject" className="leading-7 text-sm text-gray-600">
-                            제목
+    if (data) {
+        return (
+            <>
+                <form onSubmit={handleSubmit}>
+                    <div className="flex flex-wrap lg:w-2/3 w-full  flex-col mx-auto px-8 sm:space-x-4  space-y-4 sm:px-0 ">
+                        {/* 재료 체크박스 */}
+                        <div className="flex space-x-4 pl-4">
+                            <IngredientCheckBox
+                                onIngredientChange={onIngredientChange}
+                                onIngredientRemove={onIngredientRemove}
+                                ingredientType="subwayMenu"
+                                maxChecked={1}
+                            />
+                            <IngredientCheckBox
+                                onIngredientChange={onIngredientChange}
+                                onIngredientRemove={onIngredientRemove}
+                                ingredientType="bread"
+                                maxChecked={1}
+                            />
+                            <IngredientCheckBox
+                                onIngredientChange={onIngredientChange}
+                                onIngredientRemove={onIngredientRemove}
+                                ingredientType="cheese"
+                                maxChecked={1}
+                            />
+                            <IngredientCheckBox
+                                onIngredientChange={onIngredientChange}
+                                onIngredientRemove={onIngredientRemove}
+                                ingredientType="vegetable"
+                                maxChecked={8}
+                            />
+                            <IngredientCheckBox
+                                onIngredientChange={onIngredientChange}
+                                onIngredientRemove={onIngredientRemove}
+                                ingredientType="sauce"
+                                maxChecked={3}
+                            />
+                        </div>
+                        {/* 제목 */}
+                        <div className="relative flex-grow w-full">
+                            <label htmlFor="subject" className="leading-7 text-sm text-gray-600">
+                                제목
+                            </label>
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        {/* 내용 */}
+                        <div className="relative flex-grow w-full">
+                            <label htmlFor="content" className="leading-7 text-sm text-gray-600">
+                                내용
+                            </label>
+                            <textarea
+                                id="content"
+                                name="content"
+                                className="w-full h-40 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <label htmlFor="image" className="leading-7 text-sm text-gray-600">
+                            이미지
                         </label>
                         <input
-                            type="text"
-                            id="subject"
-                            name="subject"
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/*" // 이미지 파일만 허용하도록 설정
                             className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            onChange={handleChange}
+                            onChange={handleImageChange} // 이미지가 변경될 때 호출되는 핸들러 함수
                         />
+                        <button
+                            type="submit"
+                            className="text-white  bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
+                        >
+                            수정
+                        </button>
                     </div>
-                    {/* 내용 */}
-                    <div className="relative flex-grow w-full">
-                        <label htmlFor="content" className="leading-7 text-sm text-gray-600">
-                            내용
-                        </label>
-                        <textarea
-                            id="content"
-                            name="content"
-                            className="w-full h-40 bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <label htmlFor="image" className="leading-7 text-sm text-gray-600">
-                        이미지
-                    </label>
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        accept="image/*" // 이미지 파일만 허용하도록 설정
-                        className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-green-500 focus:bg-transparent focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                        onChange={handleImageChange} // 이미지가 변경될 때 호출되는 핸들러 함수
-                    />
-                    <button
-                        type="submit"
-                        className="text-white  bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
-                    >
-                        수정
-                    </button>
-                </div>
-            </form>
-        </>
-    );
+                </form>
+            </>
+        );
+    }
 }
-
 export default SubwayArticleModifyForm;
