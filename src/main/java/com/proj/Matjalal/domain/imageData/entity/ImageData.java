@@ -23,6 +23,8 @@ public class ImageData extends BaseEntity{
     private String type;
     @Column
     private String filePath;
+    @Column
+    private String uploadPath;
 
     @JsonIgnore
     @ManyToOne

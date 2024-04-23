@@ -8,18 +8,14 @@ import api from "../utils/api";
 import axios from "axios";
 import { MemberInterface } from "../interface/member/MemberInterfaces";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { IngredientInterface } from "../interface/ingredient/IngredientInterfaces";
 
-interface ingredientsInterface {
-    id: string;
-    name: string;
-    type: string;
-}
 type ImageState = File | null;
 
 export default function GongchaArticleForm() {
     const router = useRouter();
     const [member, setMember] = useState<MemberInterface>();
-    const [selectedIngredients, setSelectedIngredients] = useState<ingredientsInterface[]>([]);
+    const [selectedIngredients, setSelectedIngredients] = useState<IngredientInterface[]>([]);
     const [article, setArticle] = useState({ subject: "", content: "" });
     const [image, setImage] = useState<ImageState>(null);
 
@@ -41,8 +37,8 @@ export default function GongchaArticleForm() {
         queryFn: getMember,
     });
 
-    const onIngredientChange = (checkedIngredients: ingredientsInterface[]) => {
-        const isDuplicated = (ingredient: ingredientsInterface) => {
+    const onIngredientChange = (checkedIngredients: IngredientInterface[]) => {
+        const isDuplicated = (ingredient: IngredientInterface) => {
             return selectedIngredients.some((item) => item === ingredient);
         };
 
@@ -54,7 +50,7 @@ export default function GongchaArticleForm() {
         // Remove previously selected ingredients of the same type
     };
 
-    const onIngredientRemove = (removedIngredient: ingredientsInterface) => {
+    const onIngredientRemove = (removedIngredient: IngredientInterface) => {
         // 선택된 재료 배열에서 제거할 재료를 제외하고 새로운 배열 생성
         const updatedIngredients = selectedIngredients.filter((ingredient) => ingredient !== removedIngredient);
         setSelectedIngredients(updatedIngredients);

@@ -7,5 +7,6 @@ export interface ImageDataInterface {
     name: string;
     type: string;
     filePath: string;
+    uploadPath: string;
     // member: MemberInterface;
 }

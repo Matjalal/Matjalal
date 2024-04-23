@@ -15,7 +15,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ImageDataService {
     private final ImageDataRepository imageDataRepository;
-    private final String FOLDER_PATH = "C:\\file_upload\\article";
+    private final String FOLDER_PATH = "C:\\Users\\SBS\\IdeaProjects\\Matjalal\\frontapp\\my-app\\public\\";
+    private final String UPLOAD_PATH = "images";
 
     public Optional<ImageData> findByArticle(Article article) {
         return  this.imageDataRepository.findByArticle(article);
@@ -24,12 +25,14 @@ public class ImageDataService {
     }
 
     public String uploadImageToFileSystem(MultipartFile file) throws IOException {
-        String filePath = FOLDER_PATH + file.getOriginalFilename();
+        String filePath = FOLDER_PATH + UPLOAD_PATH + "\\" + file.getOriginalFilename();
+        String uploadPath = UPLOAD_PATH + "\\" + file.getOriginalFilename();
         ImageData imageData = imageDataRepository.save(
                 ImageData.builder()
                         .name(file.getOriginalFilename())
                         .type(file.getContentType())
                         .filePath(filePath)
+                        .uploadPath(uploadPath)
                         .build()
         );
 
@@ -43,12 +46,14 @@ public class ImageDataService {
         return null;
     }
     public String uploadImageToFileSystemWithArticle(MultipartFile file, Article article) throws IOException {
-        String filePath = FOLDER_PATH + file.getOriginalFilename();
+        String filePath = FOLDER_PATH + UPLOAD_PATH + "\\" + file.getOriginalFilename();
+        String uploadPath = UPLOAD_PATH + "/" + file.getOriginalFilename();
         ImageData imageData = imageDataRepository.save(
                 ImageData.builder()
                         .name(file.getOriginalFilename())
                         .type(file.getContentType())
                         .filePath(filePath)
+                        .uploadPath(uploadPath)
                         .article(article)
                         .build()
 

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MemberInterface } from "../interface/member/MemberInterfaces";
 import { ImageDataInterface } from "../interface/imageData/ImageDataInterfaces";
+import Image from "next/image";
 
 interface DetailProps {
     color: string;
@@ -147,11 +148,13 @@ const Detail: React.FC<DetailProps> = ({ color, types }) => {
                         </div>
                     </div>
                     {/* 추후 이미지 추가 시 주석 */}
-                    <img
+                    {/* <img
                         alt="article"
                         className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-                        src={`\\${data?.filePath}`}
-                    />
+                        src={`${data?.uploadPath}`}
+                    /> */}
+
+                    <Image src={`/${data?.uploadPath}`} width={400} height={400} alt="article_image" />
                 </div>
                 {reviews.map((review) => (
                     <div key={review.id} className="lg:w-4/5 w-full mx-auto border border-gray-300 mt-15 mb-10">
